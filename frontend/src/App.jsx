@@ -9,6 +9,7 @@ import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
+import Layout from './components/Layout.jsx';
 
 
 const App = () => {
@@ -26,7 +27,10 @@ const App = () => {
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <HomePage />
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
+      
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
