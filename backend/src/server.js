@@ -31,9 +31,6 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/progress", progressRoutes);
 
-// Health check endpoint for Render and load balancers
-app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
-
 const server = app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
   // connectDB handles logging; do not block the server startup on DB errors
