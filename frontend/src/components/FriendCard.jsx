@@ -1,5 +1,6 @@
 import { Link } from "react-router";
-import { LANGUAGE_TO_FLAG } from "../constants";
+import { getAvatarFallback, getProfileImage } from "../lib/utils";
+import { getLanguageFlag } from "../lib/languageFlags";
 
 const FriendCard = ({ friend }) => {
   return (
@@ -8,7 +9,15 @@ const FriendCard = ({ friend }) => {
         {/* USER INFO */}
         <div className="flex items-center gap-3 mb-3">
           <div className="avatar size-12">
-            <img src={friend.profilePic} alt={friend.fullName} />
+            <img
+              src={getProfileImage(friend.profilePic, friend.fullName)}
+              alt={friend.fullName}
+              className="rounded-full object-cover"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = getAvatarFallback(friend.fullName);
+              }}
+            />
           </div>
           <h3 className="font-semibold truncate">{friend.fullName}</h3>
         </div>
@@ -33,20 +42,5 @@ const FriendCard = ({ friend }) => {
 };
 export default FriendCard;
 
-export function getLanguageFlag(language) {
-  if (!language) return null;
-
-  const langLower = language.toLowerCase();
-  const countryCode = LANGUAGE_TO_FLAG[langLower];
-
-  if (countryCode) {
-    return (
-      <img
-        src={`https://flagcdn.com/24x18/${countryCode}.png`}
-        alt={`${langLower} flag`}
-        className="h-3 mr-1 inline-block"
-      />
-    );
-  }
-  return null;
-}
+// `getLanguageFlag` moved to `src/lib/languageFlags.js` to keep this file
+// exporting only the component so React Fast Refresh works correctly.
