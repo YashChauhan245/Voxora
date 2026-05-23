@@ -1,17 +1,34 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
+import { BarChart3Icon, BellIcon, HomeIcon, MessageSquareIcon, SparklesIcon, UsersIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getNotificationCounts, getUnreadMessagesCount } from "../lib/api";
+import BrandMark from "./BrandMark";
+import { getAvatarFallback, getProfileImage } from "../lib/utils";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
   const currentPath = location.pathname;
 
+  const { data: notificationCounts } = useQuery({
+    queryKey: ["notificationCounts"],
+    queryFn: getNotificationCounts,
+  });
+
+  const { data: unreadData } = useQuery({
+    queryKey: ["unreadMessagesCount"],
+    queryFn: getUnreadMessagesCount,
+  });
+
+  const pendingRequests = notificationCounts?.pendingRequests || 0;
+  const unreadMessages = unreadData?.unreadCount || 0;
+
   return (
     <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">
       <div className="p-5 border-b border-base-300">
         <Link to="/" className="flex items-center gap-2.5">
-          <ShipWheelIcon className="size-9 text-primary" />
+          <BrandMark className="size-9" />
           <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
             Voxora
           </span>
@@ -40,6 +57,38 @@ const Sidebar = () => {
         </Link>
 
         <Link
+          to="/dashboard"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
+            currentPath === "/dashboard" ? "btn-active" : ""
+          }`}
+        >
+          <BarChart3Icon className="size-5 text-base-content opacity-70" />
+          <span>Progress</span>
+        </Link>
+
+        <Link
+          to="/assistant"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
+            currentPath === "/assistant" ? "btn-active" : ""
+          }`}
+        >
+          <SparklesIcon className="size-5 text-base-content opacity-70" />
+          <span>AI Assistant</span>
+        </Link>
+
+        <Link
+          to="/friends"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
+            currentPath === "/friends" ? "btn-active" : ""
+          }`}
+          title="Open friends and start chats"
+        >
+          <MessageSquareIcon className="size-5 text-base-content opacity-70" />
+          <span>Unread Messages</span>
+          {unreadMessages > 0 && <span className="badge badge-primary ml-auto">{unreadMessages}</span>}
+        </Link>
+
+        <Link
           to="/notifications"
           className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
             currentPath === "/notifications" ? "btn-active" : ""
@@ -47,6 +96,7 @@ const Sidebar = () => {
         >
           <BellIcon className="size-5 text-base-content opacity-70" />
           <span>Notifications</span>
+          {pendingRequests > 0 && <span className="badge badge-primary ml-auto">{pendingRequests}</span>}
         </Link>
       </nav>
 
@@ -55,7 +105,14 @@ const Sidebar = () => {
         <div className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-10 rounded-full">
-              <img src={authUser?.profilePic} alt="User Avatar" />
+              <img
+                src={getProfileImage(authUser?.profilePic, authUser?.fullName)}
+                alt="User Avatar"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = getAvatarFallback(authUser?.fullName);
+                }}
+              />
             </div>
           </div>
           <div className="flex-1">

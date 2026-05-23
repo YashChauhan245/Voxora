@@ -1,14 +1,25 @@
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { acceptFriendRequest, getFriendRequests } from "../lib/api";
 import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from "lucide-react";
 import NoNotificationsFound from "../components/NoNotificationsFound";
+import { getAvatarFallback, getProfileImage } from "../lib/utils";
+
+const dedupeById = (list) => {
+  const map = new Map();
+  list.forEach((item) => map.set(item._id, item));
+  return [...map.values()];
+};
 
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
+  const [page, setPage] = useState(1);
+  const [incomingRequests, setIncomingRequests] = useState([]);
+  const [acceptedRequests, setAcceptedRequests] = useState([]);
 
-  const { data: friendRequests, isLoading } = useQuery({
-    queryKey: ["friendRequests"],
-    queryFn: getFriendRequests,
+  const { data: friendRequests, isLoading, isFetching } = useQuery({
+    queryKey: ["friendRequests", page],
+    queryFn: () => getFriendRequests({ page, limit: 8 }),
   });
 
   const { mutate: acceptRequestMutation, isPending } = useMutation({
@@ -16,11 +27,28 @@ const NotificationsPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["friendRequests"] });
       queryClient.invalidateQueries({ queryKey: ["friends"] });
+      queryClient.invalidateQueries({ queryKey: ["notificationCounts"] });
     },
   });
 
-  const incomingRequests = friendRequests?.incomingReqs || [];
-  const acceptedRequests = friendRequests?.acceptedReqs || [];
+  useEffect(() => {
+    if (!friendRequests) return;
+
+    if (page === 1) {
+      setIncomingRequests(friendRequests.incomingReqs || []);
+      setAcceptedRequests(friendRequests.acceptedReqs || []);
+      return;
+    }
+
+    setIncomingRequests((prev) => dedupeById([...prev, ...(friendRequests.incomingReqs || [])]));
+    setAcceptedRequests((prev) => dedupeById([...prev, ...(friendRequests.acceptedReqs || [])]));
+  }, [friendRequests, page]);
+
+  const pagination = friendRequests?.pagination;
+  const hasMore = useMemo(
+    () => Boolean(pagination?.incomingHasMore || pagination?.acceptedHasMore),
+    [pagination]
+  );
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -51,7 +79,14 @@ const NotificationsPage = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="avatar w-14 h-14 rounded-full bg-base-300">
-                              <img src={request.sender.profilePic} alt={request.sender.fullName} />
+                              <img
+                                src={getProfileImage(request.sender.profilePic, request.sender.fullName)}
+                                alt={request.sender.fullName}
+                                onError={(e) => {
+                                  e.currentTarget.onerror = null;
+                                  e.currentTarget.src = getAvatarFallback(request.sender.fullName);
+                                }}
+                              />
                             </div>
                             <div>
                               <h3 className="font-semibold">{request.sender.fullName}</h3>
@@ -81,7 +116,6 @@ const NotificationsPage = () => {
               </section>
             )}
 
-            {/* ACCEPTED REQS NOTIFICATONS */}
             {acceptedRequests.length > 0 && (
               <section className="space-y-4">
                 <h2 className="text-xl font-semibold flex items-center gap-2">
@@ -96,8 +130,17 @@ const NotificationsPage = () => {
                         <div className="flex items-start gap-3">
                           <div className="avatar mt-1 size-10 rounded-full">
                             <img
-                              src={notification.recipient.profilePic}
+                              src={getProfileImage(
+                                notification.recipient.profilePic,
+                                notification.recipient.fullName
+                              )}
                               alt={notification.recipient.fullName}
+                              onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = getAvatarFallback(
+                                  notification.recipient.fullName
+                                );
+                              }}
                             />
                           </div>
                           <div className="flex-1">
@@ -125,10 +168,23 @@ const NotificationsPage = () => {
             {incomingRequests.length === 0 && acceptedRequests.length === 0 && (
               <NoNotificationsFound />
             )}
+
+            {(incomingRequests.length > 0 || acceptedRequests.length > 0) && (
+              <div className="flex justify-center">
+                <button
+                  className="btn btn-outline"
+                  disabled={!hasMore || isFetching}
+                  onClick={() => setPage((prev) => prev + 1)}
+                >
+                  {isFetching ? "Loading..." : hasMore ? "Load More" : "No More Notifications"}
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
     </div>
   );
 };
+
 export default NotificationsPage;

@@ -30,18 +30,18 @@ export const logout = async () => {
   return response.data;
 };
 
-export async function getUserFriends() {
-  const response = await axiosInstance.get("/users/friends");
+export async function getUserFriends(params = {}) {
+  const response = await axiosInstance.get("/users/friends", { params });
   return response.data;
 }
 
-export async function getRecommendedUsers() {
-  const response = await axiosInstance.get("/users");
+export async function getRecommendedUsers(params = {}) {
+  const response = await axiosInstance.get("/users", { params });
   return response.data;
 }
 
-export async function getOutgoingFriendReqs() {
-  const response = await axiosInstance.get("/users/outgoing-friend-requests");
+export async function getOutgoingFriendReqs(params = {}) {
+  const response = await axiosInstance.get("/users/outgoing-friend-requests", { params });
   return response.data;
 }
 
@@ -50,8 +50,13 @@ export async function sendFriendRequest(userId) {
   return response.data;
 }
 
-export async function getFriendRequests() {
-  const response = await axiosInstance.get("/users/friend-requests");
+export async function getFriendRequests(params = {}) {
+  const response = await axiosInstance.get("/users/friend-requests", { params });
+  return response.data;
+}
+
+export async function getNotificationCounts() {
+  const response = await axiosInstance.get("/users/notification-counts");
   return response.data;
 }
 
@@ -63,5 +68,40 @@ export async function acceptFriendRequest(requestId) {
 
 export async function getStreamToken() {
   const response = await axiosInstance.get("/chat/token");
+  return response.data;
+}
+
+export async function getUnreadMessagesCount() {
+  const response = await axiosInstance.get("/chat/unread-count");
+  return response.data;
+}
+
+export async function aiTranslate(payload) {
+  const response = await axiosInstance.post("/ai/translate", payload);
+  return response.data;
+}
+
+export async function aiGrammar(payload) {
+  const response = await axiosInstance.post("/ai/grammar", payload);
+  return response.data;
+}
+
+export async function aiConversationStarters(payload) {
+  const response = await axiosInstance.post("/ai/starters", payload);
+  return response.data;
+}
+
+export async function aiVoiceFeedback(payload) {
+  const response = await axiosInstance.post("/ai/voice-feedback", payload);
+  return response.data;
+}
+
+export async function logProgressEvent(payload) {
+  const response = await axiosInstance.post("/progress/events", payload);
+  return response.data;
+}
+
+export async function getProgressDashboard() {
+  const response = await axiosInstance.get("/progress/dashboard");
   return response.data;
 }

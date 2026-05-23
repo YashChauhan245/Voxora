@@ -179,6 +179,8 @@ export const LANGUAGES = [
   "Dutch",
 ];
 
+export const AVAILABILITY_OPTIONS = ["available", "busy", "offline"];
+
 export const LANGUAGE_TO_FLAG = {
   english: "gb",
   spanish: "es",

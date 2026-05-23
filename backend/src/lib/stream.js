@@ -28,3 +28,14 @@ export const generateStreamToken = (userId) => {
     console.error("Error generating Stream token:", error);
   }
 };
+
+export const getUnreadChatCount = async (userId) => {
+  try {
+    const userIdStr = userId.toString();
+    const response = await streamClient.getUnreadCount(userIdStr);
+    return response?.total_unread_count || 0;
+  } catch (error) {
+    console.error("Error getting unread chat count:", error.message);
+    return 0;
+  }
+};

@@ -37,6 +37,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    availability: {
+      type: String,
+      enum: ["available", "busy", "offline"],
+      default: "available",
+    },
     isOnboarded: {
       type: Boolean,
       default: false,

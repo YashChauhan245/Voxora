@@ -1,11 +1,22 @@
 import mongoose from "mongoose";
 
+const redactMongoUri = (text = "") => {
+  const value = String(text);
+  // Hide credentials in mongodb://user:pass@host
+  const maskedCredentials = value.replace(/(mongodb(?:\+srv)?:\/\/)([^@\s]+)@/gi, "$1***@");
+  // Hide full URI if it appears anywhere in logs
+  return process.env.MONGO_URI
+    ? maskedCredentials.replaceAll(process.env.MONGO_URI, "[REDACTED_MONGO_URI]")
+    : maskedCredentials;
+};
+
 export const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
   } catch (error) {
-    console.log("Error in connecting to MongoDB", error);
+    const safeMessage = redactMongoUri(error?.message || "Unknown connection error");
+    console.error("Error in connecting to MongoDB:", safeMessage);
     process.exit(1); // 1 means failure
   }
 };

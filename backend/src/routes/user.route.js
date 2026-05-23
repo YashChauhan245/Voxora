@@ -4,6 +4,7 @@ import {
   acceptFriendRequest,
   getFriendRequests,
   getMyFriends,
+  getNotificationCounts,
   getOutgoingFriendReqs,
   getRecommendedUsers,
   sendFriendRequest,
@@ -23,5 +24,6 @@ router.put("/friend-request/:id/accept", acceptFriendRequest); //put as we the u
 
 router.get("/friend-requests", getFriendRequests);
 router.get("/outgoing-friend-requests", getOutgoingFriendReqs);
+router.get("/notification-counts", getNotificationCounts);
 
 export default router;

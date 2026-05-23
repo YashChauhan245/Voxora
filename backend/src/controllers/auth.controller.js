@@ -2,6 +2,11 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import { upsertStreamUser } from "../lib/stream.js";
 
+const getDicebearAvatar = (seed = "user") => {
+  const encodedSeed = encodeURIComponent(seed);
+  return `https://api.dicebear.com/9.x/initials/svg?seed=${encodedSeed}&radius=50&fontSize=42&backgroundColor=0f766e,1d4ed8,4338ca&textColor=ffffff`;
+};
+
 
 export async function signup(req, res) {
   const { email, password, fullName } = req.body;
@@ -26,8 +31,8 @@ export async function signup(req, res) {
       return res.status(400).json({ message: "Email already exists, please use a diffrent one" });
     }
 
-    const idx = Math.floor(Math.random() * 100) + 1; // generate a num between 1-100
-    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+    const avatarSeed = `${fullName}-${Date.now()}`;
+    const randomAvatar = getDicebearAvatar(avatarSeed);
  
     const newUser = await User.create({
       email,

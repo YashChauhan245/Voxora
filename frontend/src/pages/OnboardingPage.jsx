@@ -3,8 +3,9 @@ import useAuthUser from "../hooks/useAuthUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { completeOnboarding } from "../lib/api";
-import { LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from "lucide-react";
-import { LANGUAGES } from "../constants";
+import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from "lucide-react";
+import { AVAILABILITY_OPTIONS, LANGUAGES } from "../constants";
+import { getAvatarFallback } from "../lib/utils";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -16,6 +17,7 @@ const OnboardingPage = () => {
     nativeLanguage: authUser?.nativeLanguage || "",
     learningLanguage: authUser?.learningLanguage || "",
     location: authUser?.location || "",
+    availability: authUser?.availability || "available",
     profilePic: authUser?.profilePic || "",
   });
 
@@ -38,8 +40,8 @@ const OnboardingPage = () => {
   };
 
   const handleRandomAvatar = () => {
-    const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
-    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+    const randomSeed = `${formState.fullName || "user"}-${Math.random().toString(36).slice(2, 8)}`;
+    const randomAvatar = getAvatarFallback(randomSeed);
 
     setFormState({ ...formState, profilePic: randomAvatar });
     toast.success("Random profile picture generated!");
@@ -166,6 +168,24 @@ const OnboardingPage = () => {
                   placeholder="City, Country"
                 />
               </div>
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Availability</span>
+              </label>
+              <select
+                name="availability"
+                value={formState.availability}
+                onChange={(e) => setFormState({ ...formState, availability: e.target.value })}
+                className="select select-bordered w-full"
+              >
+                {AVAILABILITY_OPTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* SUBMIT BUTTON */}
