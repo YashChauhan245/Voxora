@@ -21,8 +21,9 @@ async function killPort() {
       const lines = stdout.split(/\r?\n/).filter(Boolean);
       for (const line of lines) {
         const parts = line.trim().split(/\s+/);
-        const pid = parts[parts.length - 1];
-        if (pid && !isNaN(pid)) {
+        const pidStr = parts[parts.length - 1];
+        const pid = parseInt(pidStr, 10);
+        if (pid > 0) {
           console.log(`Killing PID ${pid} on port ${PORT}`);
           await run(`taskkill /PID ${pid} /F`);
         }
