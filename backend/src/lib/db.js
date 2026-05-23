@@ -17,6 +17,9 @@ export const connectDB = async () => {
   } catch (error) {
     const safeMessage = redactMongoUri(error?.message || "Unknown connection error");
     console.error("Error in connecting to MongoDB:", safeMessage);
-    process.exit(1); // 1 means failure
+    // Do not exit the process here; allow the host (Render) to manage restarts
+    // and keep the server process alive for observability. The server will
+    // operate in degraded mode until the DB is available.
+    return;
   }
 };

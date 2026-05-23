@@ -13,9 +13,11 @@ import cors from "cors";
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true, // allow frontend to send cookies
   })
 );
@@ -29,8 +31,12 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/progress", progressRoutes);
 
+// Health check endpoint for Render and load balancers
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
+
 const server = app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
+  // connectDB handles logging; do not block the server startup on DB errors
   connectDB();
 });
 
