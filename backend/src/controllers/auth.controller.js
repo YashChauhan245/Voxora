@@ -158,3 +158,82 @@ export async function onboard(req, res) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+export async function updateProfile(req, res) {
+  try {
+    const userId = req.user._id;
+    const updates = {};
+
+    if (typeof req.body.fullName === "string") {
+      const fullName = req.body.fullName.trim();
+
+      if (!fullName) {
+        return res.status(400).json({ message: "Full name cannot be empty" });
+      }
+
+      updates.fullName = fullName;
+    }
+
+    if (typeof req.body.profilePic === "string") {
+      updates.profilePic = req.body.profilePic.trim();
+    }
+
+    if (typeof req.body.bio === "string") {
+      updates.bio = req.body.bio.trim();
+    }
+
+    if (typeof req.body.location === "string") {
+      updates.location = req.body.location.trim();
+    }
+
+    if (typeof req.body.nativeLanguage === "string") {
+      const nativeLanguage = req.body.nativeLanguage.trim().toLowerCase();
+      if (nativeLanguage) {
+        updates.nativeLanguage = nativeLanguage;
+      }
+    }
+
+    if (typeof req.body.learningLanguage === "string") {
+      const learningLanguage = req.body.learningLanguage.trim().toLowerCase();
+      if (learningLanguage) {
+        updates.learningLanguage = learningLanguage;
+      }
+    }
+
+    if (typeof req.body.availability === "string") {
+      const availability = req.body.availability.trim().toLowerCase();
+      if (["available", "busy", "offline"].includes(availability)) {
+        updates.availability = availability;
+      } else {
+        return res.status(400).json({ message: "Invalid availability value" });
+      }
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ message: "No profile changes provided" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedUser) return res.status(404).json({ message: "User not found" });
+
+    try {
+      await upsertStreamUser({
+        id: updatedUser._id.toString(),
+        name: updatedUser.fullName,
+        image: updatedUser.profilePic || "",
+      });
+      console.log(`Stream user updated for ${updatedUser.fullName}`);
+    } catch (streamError) {
+      console.log("Error updating Stream user profile:", streamError.message);
+    }
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}

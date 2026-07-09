@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import useLogin from "../hooks/useLogin";
 import BrandMark from "../components/BrandMark";
+import { useThemeStore } from "../store/useThemeStore";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -10,6 +11,7 @@ const LoginPage = () => {
   });
 
   const { isPending, error, loginMutation } = useLogin();
+  const { theme } = useThemeStore();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const LoginPage = () => {
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="forest"
+      data-theme={theme}
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* LOGIN FORM SECTION */}

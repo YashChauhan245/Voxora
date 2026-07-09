@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import BrandMark from "../components/BrandMark";
+import { useThemeStore } from "../store/useThemeStore";
 
 import useSignUp from "../hooks/useSignUp";
 
@@ -12,6 +13,7 @@ const SignUpPage = () => {
   });
 
   const { isPending, error, signupMutation } = useSignUp();
+  const { theme } = useThemeStore();
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ const SignUpPage = () => {
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="forest"
+      data-theme={theme}
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* SIGNUP FORM - LEFT SIDE */}

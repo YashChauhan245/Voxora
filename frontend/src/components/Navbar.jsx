@@ -8,6 +8,7 @@ import {
   MenuIcon,
   MessageSquareIcon,
   SparklesIcon,
+  UserIcon,
   UsersIcon,
 } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
@@ -90,6 +91,12 @@ const Navbar = () => {
                   AI Assistant
                 </Link>
               </li>
+              <li>
+                <Link to="/profile">
+                  <UserIcon className="size-4" />
+                  Profile
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -118,7 +125,7 @@ const Navbar = () => {
           {/* TODO */}
           <ThemeSelector />
 
-          <div className="avatar">
+          <Link to="/profile" className="avatar btn btn-ghost btn-circle" title="Edit profile">
             <div className="w-9 rounded-full">
               <img
                 src={getProfileImage(authUser?.profilePic, authUser?.fullName)}
@@ -130,7 +137,7 @@ const Navbar = () => {
                 }}
               />
             </div>
-          </div>
+          </Link>
 
           {/* Logout button */}
           <button className="btn btn-ghost btn-circle" onClick={logoutMutation}>

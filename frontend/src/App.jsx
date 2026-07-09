@@ -14,6 +14,7 @@ import { useThemeStore } from "./store/useThemeStore.js";
 import FriendsPage from "./pages/FriendsPage";
 import DashboardPage from "./pages/DashboardPage";
 import AssistantPage from "./pages/AssistantPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
 
@@ -138,6 +139,19 @@ const App = () => {
           isAuthenticated && isOnboarded ? (
             <Layout showSidebar={true}>
               <AssistantPage />
+            </Layout>
+          ) : (
+            <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+          )
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          isAuthenticated && isOnboarded ? (
+            <Layout showSidebar={true}>
+              <ProfilePage />
             </Layout>
           ) : (
             <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />

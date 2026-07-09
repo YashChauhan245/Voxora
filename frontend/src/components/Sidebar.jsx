@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BarChart3Icon, BellIcon, HomeIcon, MessageSquareIcon, SparklesIcon, UsersIcon } from "lucide-react";
+import { BarChart3Icon, BellIcon, HomeIcon, MessageSquareIcon, SparklesIcon, UserIcon, UsersIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getNotificationCounts, getUnreadMessagesCount } from "../lib/api";
 import BrandMark from "./BrandMark";
@@ -74,6 +74,16 @@ const Sidebar = () => {
         >
           <SparklesIcon className="size-5 text-base-content opacity-70" />
           <span>AI Assistant</span>
+        </Link>
+
+        <Link
+          to="/profile"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${
+            currentPath === "/profile" ? "btn-active" : ""
+          }`}
+        >
+          <UserIcon className="size-5 text-base-content opacity-70" />
+          <span>Profile</span>
         </Link>
 
         <Link
