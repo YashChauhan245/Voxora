@@ -58,6 +58,7 @@ const Sidebar = () => {
 
       {/* NAV */}
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        {/* eslint-disable-next-line no-unused-vars */}
         {NAV_ITEMS.map(({ to, icon: Icon, label }) => {
           const isActive = currentPath === to;
           return (
