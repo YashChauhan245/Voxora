@@ -4,17 +4,16 @@ const PageLoader = () => {
   const { theme } = useThemeStore();
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center gap-4"
+      className="min-h-screen flex flex-col items-center justify-center gap-4 bg-base-100"
       data-theme={theme}
-      style={{ background: "#000" }}
     >
       {/* Animated logo mark */}
       <div className="relative">
         <div
           className="w-12 h-12 rounded-2xl flex items-center justify-center"
           style={{
-            background: "linear-gradient(135deg, oklch(0.62 0.24 280), oklch(0.64 0.26 330))",
-            boxShadow: "0 0 32px oklch(0.62 0.24 280 / 0.5)",
+            background: "linear-gradient(135deg, oklch(var(--p)), oklch(var(--s) / 0.85))",
+            boxShadow: "0 0 32px oklch(var(--p) / 0.5)",
             animation: "pulse 1.5s ease-in-out infinite",
           }}
         >
@@ -23,7 +22,7 @@ const PageLoader = () => {
         <div
           className="absolute inset-0 rounded-2xl blur-xl opacity-40"
           style={{
-            background: "linear-gradient(135deg, oklch(0.62 0.24 280), oklch(0.64 0.26 330))",
+            background: "linear-gradient(135deg, oklch(var(--p)), oklch(var(--s) / 0.85))",
             animation: "pulse 1.5s ease-in-out infinite",
           }}
         />
@@ -35,7 +34,7 @@ const PageLoader = () => {
             key={i}
             className="w-1.5 h-1.5 rounded-full"
             style={{
-              background: "oklch(0.62 0.24 280)",
+              background: "oklch(var(--p))",
               animation: `bounce 1.2s ease-in-out infinite`,
               animationDelay: `${i * 0.15}s`,
             }}

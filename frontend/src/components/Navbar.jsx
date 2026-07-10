@@ -37,14 +37,7 @@ const Navbar = () => {
   const { logoutMutation } = useLogout();
 
   return (
-    <nav
-      className="sticky top-0 z-30 h-14 flex items-center border-b border-white/[0.05]"
-      style={{
-        background: "rgba(4,4,12,0.85)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-      }}
-    >
+    <nav className="sticky top-0 z-30 h-14 flex items-center border-b border-base-300 bg-base-200/85 backdrop-blur-xl">
       <div className="w-full px-4 sm:px-5">
         <div className="flex items-center justify-between w-full gap-3">
 
@@ -62,7 +55,7 @@ const Navbar = () => {
           <div className="dropdown lg:hidden">
             <button
               tabIndex={0}
-              className="btn btn-ghost btn-circle text-white/70"
+              className="btn btn-ghost btn-circle text-base-content/70"
               aria-label="Open navigation menu"
             >
               <MenuIcon className="h-5 w-5" />
@@ -85,7 +78,7 @@ const Navbar = () => {
             {/* Messages */}
             <Link
               to="/friends"
-              className="relative btn btn-ghost btn-circle text-white/60 hover:text-white/90 hover:bg-white/[0.07]"
+              className="relative btn btn-ghost btn-circle text-base-content/60 hover:text-base-content hover:bg-base-content/5"
               title="Messages"
             >
               <MessageSquareIcon className="h-5 w-5" />
@@ -97,7 +90,7 @@ const Navbar = () => {
             </Link>
 
             {/* Notifications */}
-            <Link to="/notifications" className="relative btn btn-ghost btn-circle text-white/60 hover:text-white/90 hover:bg-white/[0.07]">
+            <Link to="/notifications" className="relative btn btn-ghost btn-circle text-base-content/60 hover:text-base-content hover:bg-base-content/5">
               <BellIcon className="h-5 w-5" />
               {pendingRequests > 0 && (
                 <span className="badge badge-primary absolute -top-0.5 -right-0.5 text-[9px] min-w-[18px] h-[18px] p-0 flex items-center justify-center font-bold">
@@ -121,12 +114,12 @@ const Navbar = () => {
                   e.currentTarget.src = getAvatarFallback(authUser?.fullName);
                 }}
               />
-              <span className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border border-[#04040c]" />
+              <span className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border border-base-200" />
             </Link>
 
             {/* Logout */}
             <button
-              className="btn btn-ghost btn-circle text-white/50 hover:text-red-400 hover:bg-red-500/10"
+              className="btn btn-ghost btn-circle text-base-content/50 hover:text-error hover:bg-error/10"
               onClick={logoutMutation}
               title="Log out"
             >

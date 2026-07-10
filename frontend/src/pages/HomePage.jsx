@@ -100,8 +100,8 @@ const HomePage = () => {
       <section>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Your Friends</h2>
-            <p className="text-sm text-white/40 mt-0.5">
+            <h2 className="text-2xl font-bold text-base-content tracking-tight">Your Friends</h2>
+            <p className="text-sm text-base-content/40 mt-0.5">
               {friends.length > 0 ? `${friends.length} friend${friends.length === 1 ? "" : "s"} online` : "No friends yet — discover people below"}
             </p>
           </div>
@@ -132,14 +132,14 @@ const HomePage = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Meet New Learners</h2>
-            <p className="text-sm text-white/40 mt-0.5">
+            <h2 className="text-2xl font-bold text-base-content tracking-tight">Meet New Learners</h2>
+            <p className="text-sm text-base-content/40 mt-0.5">
               Discover language exchange partners matched to your profile
             </p>
           </div>
           {activeFilterCount > 0 && (
             <button
-              className="btn btn-sm btn-ghost text-white/50 hover:text-white gap-1.5"
+              className="btn btn-sm btn-ghost text-base-content/50 hover:text-base-content gap-1.5"
               onClick={() => {
                 setFilters(defaultFilters);
                 setPage(1);
@@ -152,20 +152,14 @@ const HomePage = () => {
         </div>
 
         {/* Filter bar */}
-        <div
-          className="rounded-2xl p-4 mb-6"
-          style={{ background: "rgba(10,10,20,0.7)", border: "1px solid rgba(255,255,255,0.07)" }}
-        >
+        <div className="rounded-2xl p-4 mb-6 bg-base-200/70 border border-base-300">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
             {/* Search */}
-            <label
-              className="input input-bordered flex items-center gap-2.5 lg:col-span-2"
-              style={{ background: "rgba(255,255,255,0.04)" }}
-            >
-              <SearchIcon className="size-4 text-white/30 shrink-0" />
+            <label className="input input-bordered flex items-center gap-2.5 lg:col-span-2 bg-base-100/50">
+              <SearchIcon className="size-4 text-base-content/30 shrink-0" />
               <input
                 type="text"
-                className="grow text-sm bg-transparent border-none outline-none text-white placeholder:text-white/25"
+                className="grow text-sm bg-transparent border-none outline-none text-base-content placeholder:text-base-content/25"
                 placeholder="Search by name…"
                 value={filters.q}
                 onChange={(e) => handleFilterChange("q", e.target.value)}
@@ -174,8 +168,7 @@ const HomePage = () => {
 
             {/* Native language */}
             <select
-              className="select select-bordered text-sm"
-              style={{ background: "rgba(255,255,255,0.04)" }}
+              className="select select-bordered text-sm bg-base-100/50"
               value={filters.nativeLanguage}
               onChange={(e) => handleFilterChange("nativeLanguage", e.target.value)}
             >
@@ -189,8 +182,7 @@ const HomePage = () => {
 
             {/* Learning language */}
             <select
-              className="select select-bordered text-sm"
-              style={{ background: "rgba(255,255,255,0.04)" }}
+              className="select select-bordered text-sm bg-base-100/50"
               value={filters.learningLanguage}
               onChange={(e) => handleFilterChange("learningLanguage", e.target.value)}
             >
@@ -204,8 +196,7 @@ const HomePage = () => {
 
             {/* Availability */}
             <select
-              className="select select-bordered text-sm"
-              style={{ background: "rgba(255,255,255,0.04)" }}
+              className="select select-bordered text-sm bg-base-100/50"
               value={filters.availability}
               onChange={(e) => handleFilterChange("availability", e.target.value)}
             >
@@ -225,13 +216,10 @@ const HomePage = () => {
             <span className="loading loading-spinner loading-lg text-primary" />
           </div>
         ) : allRecommendedUsers.length === 0 ? (
-          <div
-            className="rounded-2xl p-10 text-center"
-            style={{ background: "rgba(10,10,20,0.6)", border: "1px solid rgba(255,255,255,0.07)" }}
-          >
+          <div className="rounded-2xl p-10 text-center bg-base-200/60 border border-base-300">
             <div className="text-3xl mb-3">🌐</div>
-            <h3 className="font-semibold text-white mb-1.5">No results found</h3>
-            <p className="text-sm text-white/40">
+            <h3 className="font-semibold text-base-content mb-1.5">No results found</h3>
+            <p className="text-sm text-base-content/40">
               Try adjusting your filters or check back later for new language partners.
             </p>
           </div>
@@ -243,8 +231,7 @@ const HomePage = () => {
                 return (
                   <div
                     key={user._id}
-                    className="rounded-2xl p-5 glow-hover transition-all duration-200"
-                    style={{ background: "rgba(10,10,20,0.75)", border: "1px solid rgba(255,255,255,0.07)" }}
+                    className="rounded-2xl p-5 glow-hover transition-all duration-200 bg-base-200/70 border border-base-300"
                   >
                     {/* User header */}
                     <div className="flex items-center gap-3.5 mb-4">
@@ -260,20 +247,17 @@ const HomePage = () => {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-white text-base truncate">
+                        <h3 className="font-semibold text-base-content text-base truncate">
                           {user.fullName}
                         </h3>
                         {user.location && (
-                          <div className="flex items-center gap-1 text-xs text-white/40 mt-0.5">
+                          <div className="flex items-center gap-1 text-xs text-base-content/40 mt-0.5">
                             <MapPinIcon className="size-3 shrink-0" />
                             <span className="truncate">{user.location}</span>
                           </div>
                         )}
                         <div className="mt-1.5">
-                          <span
-                            className="text-[10px] font-medium px-2 py-0.5 rounded-full"
-                            style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.5)" }}
-                          >
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-base-100/50 text-base-content/60">
                             {user.availability || "available"}
                           </span>
                         </div>
@@ -294,7 +278,7 @@ const HomePage = () => {
 
                     {/* Bio */}
                     {user.bio && (
-                      <p className="text-sm text-white/40 line-clamp-2 mb-4 leading-relaxed">
+                      <p className="text-sm text-base-content/40 line-clamp-2 mb-4 leading-relaxed">
                         {user.bio}
                       </p>
                     )}

@@ -19,31 +19,24 @@ const LoginPage = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-base-100"
       data-theme={theme}
-      style={{ background: "#000" }}
     >
       {/* Background mesh glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl"
-          style={{ background: "oklch(0.62 0.24 280)" }}
+          style={{ background: "oklch(var(--p))" }}
         />
         <div
           className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full opacity-8 blur-3xl"
-          style={{ background: "oklch(0.64 0.26 330)" }}
+          style={{ background: "oklch(var(--s))" }}
         />
       </div>
 
       <div className="relative w-full max-w-4xl mx-auto">
         <div
-          className="flex flex-col lg:flex-row rounded-2xl overflow-hidden"
-          style={{
-            background: "rgba(10,10,20,0.85)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            backdropFilter: "blur(40px)",
-            boxShadow: "0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05)",
-          }}
+          className="flex flex-col lg:flex-row rounded-2xl overflow-hidden bg-base-200/85 border border-base-300 backdrop-blur-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.8),_inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
           {/* FORM SIDE */}
           <div className="w-full lg:w-1/2 p-8 sm:p-10 flex flex-col justify-center">
@@ -51,7 +44,7 @@ const LoginPage = () => {
             <div className="mb-8 flex items-center gap-3">
               <div className="relative">
                 <BrandMark className="size-10 relative z-10" />
-                <div className="absolute inset-0 blur-lg opacity-50 rounded-full" style={{ background: "oklch(0.62 0.24 280)" }} />
+                <div className="absolute inset-0 blur-lg opacity-50 rounded-full bg-primary/50" />
               </div>
               <span className="text-2xl font-bold tracking-tight gradient-text font-display">
                 Voxora
@@ -59,10 +52,10 @@ const LoginPage = () => {
             </div>
 
             <div className="mb-7">
-              <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+              <h1 className="text-3xl font-bold text-base-content mb-2 tracking-tight">
                 Welcome back
               </h1>
-              <p className="text-white/45 text-sm">
+              <p className="text-base-content/45 text-sm">
                 Sign in to continue your language journey
               </p>
             </div>
@@ -100,7 +93,7 @@ const LoginPage = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="input input-bordered pr-11"
+                    className="input input-bordered pr-10"
                     value={loginData.password}
                     onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                     required
@@ -108,45 +101,47 @@ const LoginPage = () => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/35 hover:text-white/70 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content/70"
                     onClick={() => setShowPassword(!showPassword)}
-                    tabIndex={-1}
                   >
-                    {showPassword ? <EyeOffIcon className="size-4" /> : <EyeIcon className="size-4" />}
+                    {showPassword ? <EyeOffIcon className="size-5" /> : <EyeIcon className="size-5" />}
                   </button>
                 </div>
               </div>
 
+              {/* Submit */}
               <button
                 type="submit"
-                className="btn btn-primary w-full mt-2 h-11 text-sm"
+                className="btn btn-primary w-full mt-2"
                 disabled={isPending}
               >
                 {isPending ? (
                   <>
                     <span className="loading loading-spinner loading-xs" />
-                    Signing in...
+                    Signing in…
                   </>
                 ) : (
-                  "Sign in"
+                  <>
+                    <ZapIcon className="size-4" />
+                    Sign In
+                  </>
                 )}
               </button>
             </form>
 
-            <p className="text-center text-sm text-white/40 mt-6">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-primary hover:text-primary/80 font-semibold transition-colors">
-                Create one
+            <p className="text-sm text-base-content/40 text-center mt-6">
+              Don't have an account?&nbsp;
+              <Link to="/signup" className="text-primary hover:underline font-medium">
+                Sign up
               </Link>
             </p>
           </div>
 
           {/* HERO SIDE */}
           <div
-            className="hidden lg:flex w-full lg:w-1/2 flex-col items-center justify-center p-10 relative"
+            className="hidden lg:flex w-full lg:w-1/2 flex-col items-center justify-center p-10 relative border-l border-base-300"
             style={{
-              background: "linear-gradient(135deg, rgba(100,0,255,0.12) 0%, rgba(255,0,200,0.08) 100%)",
-              borderLeft: "1px solid rgba(255,255,255,0.06)",
+              background: "linear-gradient(135deg, oklch(var(--p) / 0.12) 0%, oklch(var(--s) / 0.08) 100%)",
             }}
           >
             <div className="relative w-full max-w-xs mx-auto">
@@ -157,15 +152,15 @@ const LoginPage = () => {
               />
               <div
                 className="absolute inset-0 blur-2xl opacity-25 -z-0"
-                style={{ background: "linear-gradient(135deg, oklch(0.62 0.24 280), oklch(0.64 0.26 330))" }}
+                style={{ background: "linear-gradient(135deg, oklch(var(--p)), oklch(var(--s)))" }}
               />
             </div>
 
             <div className="text-center mt-8 space-y-2">
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-xl font-bold text-base-content tracking-tight">
                 Connect Worldwide
               </h2>
-              <p className="text-sm text-white/45 max-w-xs leading-relaxed">
+              <p className="text-sm text-base-content/45 max-w-xs leading-relaxed">
                 Practice conversations, make friends, and level up your language skills together
               </p>
             </div>
@@ -175,8 +170,7 @@ const LoginPage = () => {
               {["🎙️ Voice Calls", "💬 Real-time Chat", "🤖 AI Tutor", "🌍 50+ Languages"].map((feat) => (
                 <span
                   key={feat}
-                  className="px-3 py-1.5 rounded-full text-xs font-medium text-white/60"
-                  style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}
+                  className="px-3 py-1.5 rounded-full text-xs font-medium text-base-content/60 bg-base-100/50 border border-base-300"
                 >
                   {feat}
                 </span>

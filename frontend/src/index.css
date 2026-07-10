@@ -5,39 +5,78 @@
 @tailwind utilities;
 
 @layer base {
-  :root,
-  [data-theme="cosmic-abyss"],
-  [data-theme="coffee"],
-  [data-theme="cyber-neon"],
-  [data-theme="forest"],
-  [data-theme="sunset-nebula"],
-  [data-theme="frost-aurora"] {
-    /* AMOLED Pure Black Base */
-    --b1: 0.0 0 0;           /* #000000 Pure AMOLED Black */
-    --b2: 0.055 0.004 260;   /* #0a0a0f - Card/Surface */
-    --b3: 0.11 0.008 260;    /* #141420 - Border/Divider */
-    --bc: 0.97 0.003 260;    /* #f5f5f7 - Primary text */
+  /* Shared Base & Semantic Settings */
+  :root {
+    --b1: 0 0 0;             /* Pure AMOLED Black (#000000) */
+    --bc: 0.97 0.003 260;    /* Off-white primary text */
+    --pc: 1.0 0 0;           /* White text on primary */
+    --sc: 1.0 0 0;           /* White text on secondary */
+    --ac: 0.0 0 0;           /* Black text on accent */
 
-    /* Vivid Purple-Violet Primary */
-    --p: 0.62 0.24 280;      /* Electric violet */
-    --pc: 1.0 0 0;           /* White on primary */
-
-    /* Hot Pink Secondary */
-    --s: 0.64 0.26 330;      /* Hot magenta/pink */
-    --sc: 1.0 0 0;
-
-    /* Cyan Accent */
-    --a: 0.74 0.20 195;      /* Neon cyan */
-    --ac: 0.05 0.02 195;
-
-    /* Neutral dark */
-    --n: 0.09 0.006 260;
-    --nc: 0.95 0.005 260;
-
-    /* Semantic */
     --su: 0.72 0.20 145;     /* Green success */
     --wa: 0.78 0.18 75;      /* Amber warning */
     --er: 0.65 0.22 25;      /* Red error */
+  }
+
+  /* Theme 1: Cosmic Abyss (Default Dark) */
+  :root,
+  [data-theme="cosmic-abyss"] {
+    --b1: 0 0 0;
+    --b2: 0.12 0.015 250;    /* Deep cosmic indigo-black surface */
+    --b3: 0.16 0.025 250;    /* Cosmic divider/border */
+    --bc: 0.97 0.003 260;
+
+    --p: 0.62 0.24 280;      /* Electric violet */
+    --s: 0.64 0.26 330;      /* Hot magenta pink */
+    --a: 0.74 0.20 195;      /* Neon cyan */
+    --n: 0.09 0.006 260;
+    --nc: 0.95 0.005 260;
+  }
+
+  /* Theme 2: Cyber Neon (Emerald + Cyan Dark) */
+  [data-theme="cyber-neon"] {
+    --b1: 0 0 0;
+    --b2: 0.10 0.01 160;     /* Deep green-black surface */
+    --b3: 0.15 0.025 160;    /* Green-tinted border */
+    --bc: 0.96 0.01 160;     /* Neon-tinted white text */
+
+    --p: 0.70 0.18 160;      /* Neon emerald green (#10b981) */
+    --pc: 0.0 0 0;           /* Dark contrast on green */
+    --s: 0.74 0.20 195;      /* Neon cyan (#06b6d4) */
+    --sc: 0.0 0 0;
+    --a: 0.78 0.19 120;      /* Lime accent (#84cc16) */
+    --n: 0.08 0.01 160;
+    --nc: 0.94 0.01 160;
+  }
+
+  /* Theme 3: Sunset Nebula (Orange + Rose Dark) */
+  [data-theme="sunset-nebula"] {
+    --b1: 0 0 0;
+    --b2: 0.11 0.015 35;     /* Warm rust-black surface */
+    --b3: 0.16 0.025 35;     /* Warm copper border */
+    --bc: 0.97 0.01 40;      /* Warm white text */
+
+    --p: 0.67 0.20 40;       /* Sunset orange (#f97316) */
+    --s: 0.58 0.22 345;      /* Nebula rose/pink (#db2777) */
+    --a: 0.79 0.16 85;       /* Gold/Yellow accent */
+    --n: 0.09 0.01 40;
+    --nc: 0.95 0.01 40;
+  }
+
+  /* Theme 4: Frost Aurora (Sky Blue + Mint Dark) */
+  [data-theme="frost-aurora"] {
+    --b1: 0 0 0;
+    --b2: 0.12 0.015 220;    /* Deep arctic blue-black surface */
+    --b3: 0.17 0.025 220;    /* Arctic ice border */
+    --bc: 0.97 0.01 220;     /* Cool white text */
+
+    --p: 0.75 0.15 220;      /* Aurora sky blue (#38bdf8) */
+    --pc: 0.0 0 0;
+    --s: 0.80 0.14 165;      /* Frost mint green (#34d399) */
+    --sc: 0.0 0 0;
+    --a: 0.66 0.16 270;      /* Polar indigo accent */
+    --n: 0.10 0.01 220;
+    --nc: 0.95 0.01 220;
   }
 
   * {
@@ -51,7 +90,7 @@
   }
 
   body {
-    background-color: #000000;
+    background-color: oklch(var(--b1));
     color: oklch(var(--bc));
     font-family: 'Inter', 'Space Grotesk', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
@@ -571,7 +610,7 @@
 }
 
 .chat-workspace-page {
-  background: #000;
+  background: oklch(var(--b1));
 }
 
 .chat-workspace-grid {
@@ -587,7 +626,7 @@
 }
 
 .chat-panel .str-chat__container {
-  background: #000;
+  background: oklch(var(--b1));
 }
 
 .chat-panel .str-chat__channel-header {
@@ -609,7 +648,7 @@
 }
 
 .chat-panel .str-chat__list {
-  background: #000;
+  background: oklch(var(--b1));
 }
 
 .chat-panel .str-chat__virtual-message__wrapper,

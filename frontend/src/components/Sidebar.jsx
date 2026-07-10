@@ -41,11 +41,10 @@ const Sidebar = () => {
   const unreadMessages = unreadData?.unreadCount || 0;
 
   return (
-    <aside className="w-64 hidden lg:flex flex-col h-screen sticky top-0 border-r border-white/[0.05]"
-      style={{ background: "rgba(4,4,12,0.97)", backdropFilter: "blur(20px)" }}>
+    <aside className="w-64 hidden lg:flex flex-col h-screen sticky top-0 border-r border-base-300 bg-base-200/95 backdrop-blur-xl">
 
       {/* LOGO */}
-      <div className="px-5 py-5 border-b border-white/[0.05]">
+      <div className="px-5 py-5 border-b border-base-300">
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative">
             <BrandMark className="size-9 relative z-10" />
@@ -68,12 +67,12 @@ const Sidebar = () => {
               className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
                 isActive
                   ? "bg-primary/15 text-primary border border-primary/20"
-                  : "text-white/55 hover:text-white/90 hover:bg-white/[0.06]"
+                  : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
               }`}
             >
               <Icon
                 className={`size-[18px] flex-shrink-0 transition-colors ${
-                  isActive ? "text-primary" : "text-white/40 group-hover:text-white/70"
+                  isActive ? "text-primary" : "text-base-content/40 group-hover:text-base-content/75"
                 }`}
               />
               <span className="truncate">{label}</span>
@@ -90,10 +89,14 @@ const Sidebar = () => {
           className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
             currentPath === "/chat" || currentPath.startsWith("/chat/")
               ? "bg-primary/15 text-primary border border-primary/20"
-              : "text-white/55 hover:text-white/90 hover:bg-white/[0.06]"
+              : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
           }`}
         >
-          <MessageSquareIcon className="size-[18px] flex-shrink-0 text-white/40 group-hover:text-white/70" />
+          <MessageSquareIcon className={`size-[18px] flex-shrink-0 transition-colors ${
+            currentPath === "/chat" || currentPath.startsWith("/chat/")
+              ? "text-primary"
+              : "text-base-content/40 group-hover:text-base-content/75"
+          }`} />
           <span className="truncate">Messages</span>
           {unreadMessages > 0 && (
             <span className="ml-auto badge badge-primary badge-sm px-1.5 py-0.5 text-[10px] font-bold min-w-[20px] text-center">
@@ -108,10 +111,14 @@ const Sidebar = () => {
           className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
             currentPath === "/notifications"
               ? "bg-primary/15 text-primary border border-primary/20"
-              : "text-white/55 hover:text-white/90 hover:bg-white/[0.06]"
+              : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
           }`}
         >
-          <BellIcon className="size-[18px] flex-shrink-0 text-white/40 group-hover:text-white/70" />
+          <BellIcon className={`size-[18px] flex-shrink-0 transition-colors ${
+            currentPath === "/notifications"
+              ? "text-primary"
+              : "text-base-content/40 group-hover:text-base-content/75"
+          }`} />
           <span className="truncate">Notifications</span>
           {pendingRequests > 0 && (
             <span className="ml-auto badge badge-primary badge-sm px-1.5 py-0.5 text-[10px] font-bold min-w-[20px] text-center">
@@ -122,10 +129,10 @@ const Sidebar = () => {
       </nav>
 
       {/* USER PROFILE */}
-      <div className="p-3 border-t border-white/[0.05]">
+      <div className="p-3 border-t border-base-300">
         <Link
           to="/profile"
-          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/[0.06] transition-all duration-150 group"
+          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-base-content/5 transition-all duration-150 group"
         >
           <div className="relative flex-shrink-0">
             <img
@@ -137,10 +144,10 @@ const Sidebar = () => {
                 e.currentTarget.src = getAvatarFallback(authUser?.fullName);
               }}
             />
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#04040c] shadow-[0_0_6px_rgba(34,197,94,0.6)]" />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-base-200 shadow-[0_0_6px_rgba(34,197,94,0.6)]" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white/90 truncate leading-tight">
+            <p className="text-sm font-semibold text-base-content/90 truncate leading-tight">
               {authUser?.fullName}
             </p>
             <p className="text-xs text-green-400 mt-0.5 flex items-center gap-1">

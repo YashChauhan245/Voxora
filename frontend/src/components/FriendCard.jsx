@@ -5,7 +5,7 @@ import { MessageCircleIcon } from "lucide-react";
 
 const FriendCard = ({ friend }) => {
   return (
-    <div className="card glow-hover group cursor-pointer" style={{ background: "rgba(10,10,20,0.7)", border: "1px solid rgba(255,255,255,0.07)" }}>
+    <div className="card glow-hover group cursor-pointer bg-base-200/70 border border-base-300">
       <div className="card-body p-4 gap-0">
         {/* Avatar + name */}
         <div className="flex items-center gap-3 mb-3">
@@ -19,10 +19,10 @@ const FriendCard = ({ friend }) => {
                 e.currentTarget.src = getAvatarFallback(friend.fullName);
               }}
             />
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#0a0a14] shadow-[0_0_5px_rgba(34,197,94,0.5)]" />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-base-200 shadow-[0_0_5px_rgba(34,197,94,0.5)]" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm text-white/90 truncate">{friend.fullName}</h3>
+            <h3 className="font-semibold text-sm text-base-content/90 truncate">{friend.fullName}</h3>
             <p className="text-xs text-green-400 mt-0.5 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
               Online
@@ -43,20 +43,7 @@ const FriendCard = ({ friend }) => {
         {/* Chat button */}
         <Link
           to={`/chat/${friend._id}`}
-          className="btn btn-sm w-full gap-2 mt-1"
-          style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            color: "rgba(255,255,255,0.75)",
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-            e.currentTarget.style.color = "#fff";
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-            e.currentTarget.style.color = "rgba(255,255,255,0.75)";
-          }}
+          className="btn btn-sm btn-outline w-full gap-2 mt-1 border-base-300 bg-base-100/50 hover:bg-base-300 hover:text-base-content"
         >
           <MessageCircleIcon className="size-3.5" />
           Message
