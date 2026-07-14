@@ -1,63 +1,72 @@
-# Voxora
+# Voxora - AI-Augmented Language Exchange & Social Platform
 
-Voxora is a full-stack language exchange platform that pairs learners for chat and guided video practice, with a built-in AI tutor powered by Gemini 2.5 Flash. It combines real-time messaging, video calls, onboarding and matching, and progress analytics into a single product.
+Voxora is a real-time language exchange platform designed to bridge the gap between static vocabulary memorization and spoken fluency. The platform enables language learners to connect with global partners for real-time peer-to-peer text messaging and WebRTC video calls, assisted by an inline AI Language Tutor powered by Google Gemini.
 
-## Highlights
+---
 
-- Auth + onboarding flow with JWT cookie sessions
-- Smart partner discovery with filters and pagination
-- Friend request system with notifications and unread counts
-- Real-time chat using Stream Chat SDK
-- Guided video practice sessions with prompts, timers, and ratings
-- AI language assistant (translation, grammar, conversation starters, voice feedback)
-- Progress dashboard with streaks and activity metrics
+## 📖 About the Project
 
-## Tech Stack
+Traditional language-learning applications focus on vocabulary drilling and gamified quizzes, leaving learners unprepared for real-world conversations. Voxora addresses this "fluency gap" by combining social networking features with real-time audio/video communication. 
 
-**Frontend**
-- React 19 + Vite
-- Tailwind CSS + DaisyUI
-- TanStack Query
-- Stream Chat React + Stream Video SDK
-- Zustand
+Users can find partners speaking complementary languages (e.g., a native English speaker learning Spanish matched with a native Spanish speaker learning English). As they interact, the platform provides a built-in AI Language Assistant directly inside the chat interface to analyze pronunciation, translate with customizable tones, and correct grammar errors, providing immediate feedback during active practice.
 
-**Backend**
-- Node.js + Express
-- MongoDB + Mongoose
-- JWT (httpOnly cookies)
-- Stream Chat Server SDK
-- Gemini API (gemini-2.5-flash)
+---
 
-## Architecture Overview
+## 🚀 Detailed Features
 
-- **Client**: Vite React app with routes for chat, calls, onboarding, assistant, friends, and dashboard
-- **API**: Express server exposing `/api/*` endpoints, secured via cookie JWT middleware
-- **Realtime**: Stream Chat/Video for messaging and calls, tokens issued by backend
-- **AI**: Gemini API for translation, grammar, conversation starters, and voice feedback
-- **Data**: MongoDB models for users, friend requests, and activity events
+### 🎨 Obsidian-Purple Design System
+*   **Premium Visual Palette**: Styled with a dark mode theme consisting of deep obsidian-indigo backgrounds (`#070810`) and dark charcoal-indigo card surfaces (`#121429`).
+*   **Permanent Subtle Outlines**: Replaced standard border classes with a permanent purple-tinted outline (`border-primary/20`) across all inputs, cards, and sidebars.
+*   **Interactive Micro-animations**: Components feature smooth translations (`translate-y-[-1px]`) and ambient violet glows (`shadow-glow-sm`) on hover states.
+*   **Custom Scrollbar Theme**: Integrated purple-tinted Webkit and Firefox scrollbars (`width: 7px`) across all scroll views, including the real-time chat message feed.
 
-## Project Structure
+### 💬 Real-Time Chat Engine (WebSocket Flow)
+*   **Real-time Synchronization**: Powered by GetStream's WebSocket messaging channels to handle message delivery, online indicators, and unread counts.
+*   **Dashboard Inbox Shortcut**: Features a **Recent Chats** list on the user dashboard that queries the Stream client for active channels sorted by the latest activity, enabling users to jump directly back into active conversations.
 
-```
-backend/              # Express API server
-  src/
-    controllers/      # Request handlers
-    lib/              # DB, Stream, Gemini helpers
-    middleware/       # Auth middleware
-    models/           # Mongoose schemas
-    routes/           # API routes
-frontend/             # Vite React app
-  src/
-    components/       # UI and feature components
-    hooks/            # Auth and API hooks
-    lib/              # API client + helpers
-    pages/            # Route-level screens
-```
+### 🎙️ Native Voice Note Attachments
+*   **Hardware Interface**: Captures microphone input using the browser's native **Web Audio & MediaRecorder APIs** as binary chunks.
+*   **Blob Packaging**: Compiles chunks into an `audio/webm` Blob and packages it into a standard JavaScript `File` object.
+*   **CDN Upload**: Uploads the recording directly to the GetStream CDN using `channel.sendFile()`.
+*   **Playable Messages**: Sends the audio link as a message attachment, rendering a playable audio controller inline in the chat feed.
 
-## Environment Variables
+### 📹 Peer-to-Peer Video call Rooms (WebRTC)
+*   **WebRTC Media Flow**: Establishes peer connections routed through GetStream's Selective Forwarding Unit (SFU) network to support real-time audio/video streams.
+*   **Interactive Templates**: Synchronizes practice templates (Casual, Travel, Debates, Interview) using URL query parameters to help structure peer conversations.
+*   **Countdowns & Analytics**: Features a call countdown timer and prompts users for fluency and confidence ratings after each session, which are saved to update dashboard metrics.
 
-Create `backend/.env`:
+### 🤖 Google Gemini AI Language Assistant
+*   **Tone-Aware Translation**: Translates text into target languages with selectable tones (Casual, Formal, Friendly, Academic).
+*   **Grammar & Clarity Helper**: Analyzes input text, corrects errors, and explains grammatical rules.
+*   **Conversation Starters**: Generates icebreaker prompts based on user level and interests.
+*   **Voice note Analysis**: Transcribes WebM audio files, evaluates pronunciation, and provides feedback directly inside the chat panel.
 
+---
+
+## 🛠️ Tech Stack & Rationale
+
+### Frontend Client
+*   **React 19**: Provides a declarative component tree model and efficient virtual DOM reconciliation.
+*   **Vite**: Selected for fast local Hot Module Replacement (HMR) and optimized rollup production bundles.
+*   **TailwindCSS**: Used for utility-first styling to maintain a small CSS bundle footprint.
+*   **TanStack Query (React Query)**: Manages client-side caching, request deduplication, and loading states for server resources.
+*   **Zustand**: Used for global, lightweight client-side state management (such as UI themes).
+*   **Framer Motion & GSAP**: Motion handles layout animations, while GSAP runs performance-focused count-up tweens on the dashboard metrics.
+
+### Backend Server
+*   **Node.js & Express**: Provides a non-blocking, event-driven JavaScript runtime suitable for routing API requests.
+*   **MongoDB & Mongoose ODM**: A document database selected to store flexible, schema-less user profiles, interests, and activity logs.
+*   **JWT (JSON Web Tokens)**: Used for stateless session tracking, verifying requests without querying the database each time.
+
+### Third-Party Services
+*   **GetStream.io SDKs**: Handles WebSocket messaging and WebRTC media routing.
+*   **Google Gemini API**: Processes contextual translations, grammatical analysis, and voice note transcriptions.
+
+---
+
+## ⚙️ Environment Variables & Setup
+
+### 1. Backend Environment Variables (`backend/.env`)
 ```env
 PORT=5001
 MONGO_URI=your_mongodb_connection_string
@@ -68,184 +77,41 @@ GEMINI_API_KEY=your_gemini_api_key
 FRONTEND_URL=http://localhost:5173
 ```
 
-Create `frontend/.env`:
-
+### 2. Frontend Environment Variables (`frontend/.env`)
 ```env
 VITE_STREAM_API_KEY=your_stream_api_key
+VITE_API_URL=http://localhost:5001/api
 ```
 
-Note: the frontend API base URL is currently hard-coded in `frontend/src/lib/axios.js` to `http://localhost:5001/api`. Update this value for production deployments.
-
-## Setup
-
-### Prerequisites
-- Node.js 18+
-- MongoDB (local or Atlas)
-- Stream Chat + Stream Video credentials
-- Google Gemini API key
-
-### Install
-
-From `backend/`:
-
+### 3. Installation & Local Execution
+In the `backend/` directory:
 ```bash
 npm install
-```
-
-From `frontend/`:
-
-```bash
-npm install
-```
-
-### Run (development)
-
-From `backend/`:
-
-```bash
 npm run dev
 ```
 
-From `frontend/`:
-
+In the `frontend/` directory:
 ```bash
+npm install
 npm run dev
 ```
 
-Default local URLs:
-- Backend: `http://localhost:5001`
-- Frontend: `http://localhost:5173`
+---
 
-### Build (production)
+## 🔒 Security Architectures
+*   **HTTP-Only Cookies**: JWT session tokens are stored in `HTTP-Only`, `Secure`, and `SameSite=Strict` cookies to block XSS and CSRF token theft.
+*   **Input Sanitization**: Mongoose schemas enforce typed constraints to prevent NoSQL query injection attacks.
+*   **CORS Whitelisting**: Server routing restricts cross-origin request headers to the configured `FRONTEND_URL`.
 
-From `frontend/`:
+---
 
-```bash
-npm run build
-npm run preview
-```
+## 🚀 Production Deployment
 
-From `backend/`:
+### Backend Deployment (Render / Railway)
+1.  Configure environment variables (`MONGO_URI`, `STREAM_API_SECRET`, etc.).
+2.  Set `FRONTEND_URL` to the deployed client domain to allow cookie credentials.
+3.  Start command: `npm install && npm start`.
 
-```bash
-npm start
-```
-
-## Core Features (A to Z)
-
-### Authentication and Onboarding
-- Signup and login with JWT stored in httpOnly cookies
-- Profile onboarding with language preferences, location, and availability
-- Auto-generated avatar via DiceBear
-
-### Discovery and Connections
-- Recommended users with filters (language, location, availability, name search)
-- Friend request lifecycle (send, accept, pending/outgoing)
-- Notifications with counts for requests and new connections
-
-### Real-Time Chat
-- 1:1 chat channels via Stream Chat
-- Unread counts in sidebar and navbar
-- Voice typing using browser speech recognition
-
-### Guided Video Practice
-- Stream Video calls with configurable mode, difficulty, and duration
-- In-call timer and rotating prompts
-- Post-call rating (fluency/confidence)
-- Session events logged for analytics
-
-### AI Tutor
-- **Translate** with tone variants (literal, natural, polite, casual)
-- **Grammar helper** with modes (beginner, natural, professional)
-- **Conversation starters** based on user preferences
-- **Voice feedback**: transcription, corrections, pronunciation tips, optional translation
-
-### Progress Dashboard
-- Weekly minutes spoken
-- Sessions completed
-- Languages practiced
-- Streak tracking
-- Recent activity feed
-
-## API Reference (Highlights)
-
-Base URL: `/api`
-
-**Auth**
-- `POST /auth/signup`
-- `POST /auth/login`
-- `POST /auth/logout`
-- `POST /auth/onboarding`
-- `GET /auth/me`
-
-**Users**
-- `GET /users` (recommendations, filters)
-- `GET /users/friends`
-- `POST /users/friend-request/:id`
-- `PUT /users/friend-request/:id/accept`
-- `GET /users/friend-requests`
-- `GET /users/outgoing-friend-requests`
-- `GET /users/notification-counts`
-
-**Chat**
-- `GET /chat/token`
-- `GET /chat/unread-count`
-
-**AI**
-- `POST /ai/translate`
-- `POST /ai/grammar`
-- `POST /ai/starters`
-- `POST /ai/voice-feedback`
-
-**Progress**
-- `POST /progress/events`
-- `GET /progress/dashboard`
-
-## Data Models
-
-**User**
-- `fullName`, `email`, `password` (hashed)
-- `bio`, `profilePic`
-- `nativeLanguage`, `learningLanguage`, `location`, `availability`
-- `isOnboarded`, `friends[]`
-
-**FriendRequest**
-- `sender`, `recipient`, `status`
-
-**ActivityEvent**
-- `eventType`, `durationMinutes`, `language`, `metadata`, timestamps
-
-## Security Notes
-
-- JWT stored in httpOnly cookies with `sameSite=strict`
-- Passwords hashed with bcrypt
-- CORS is restricted to `FRONTEND_URL`
-- MongoDB connection errors are redacted to avoid leaking credentials
-
-## Production Notes
-
-- Set `NODE_ENV=production` to enable secure cookies
-- Configure Stream and Gemini keys in server environment
-- Update frontend API base URL for deployment
-- Add rate limiting and logging middleware if deploying to public traffic
-
-## Scripts
-
-**Backend**
-- `npm run dev` - nodemon server
-- `npm start` - production server
-
-**Frontend**
-- `npm run dev` - Vite dev server
-- `npm run build` - production build
-- `npm run preview` - preview build
-- `npm run lint` - eslint
-
-## Roadmap Ideas
-
-- Push notifications for friend requests
-- Multi-language UI
-- AI session summaries and weekly goals
-- Moderation tooling and abuse reporting
-
-
+### Frontend Deployment (Vercel / Netlify)
+1.  Configure client variables: `VITE_STREAM_API_KEY` and `VITE_API_URL` (points to backend API).
+2.  Build command: `npm run build` and publish directory: `dist`.
