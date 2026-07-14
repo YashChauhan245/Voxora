@@ -23,6 +23,8 @@ import FriendCard from "../components/FriendCard";
 import { getLanguageFlag } from "../lib/languageFlags";
 import NoFriendsFound from "../components/NoFriendsFound";
 import { AVAILABILITY_OPTIONS, LANGUAGES } from "../constants";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const defaultFilters = {
   q: "",
@@ -108,7 +110,6 @@ const HomePage = () => {
           <Link to="/notifications" className="btn btn-sm btn-outline gap-2 shrink-0">
             <UsersIcon className="size-3.5" />
             Friend Requests
-            {/* pending badge will come from notif count */}
           </Link>
         </div>
 
@@ -119,11 +120,32 @@ const HomePage = () => {
         ) : friends.length === 0 ? (
           <NoFriendsFound />
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.05,
+                },
+              },
+            }}
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+          >
             {friends.map((friend) => (
-              <FriendCard key={friend._id} friend={friend} />
+              <motion.div
+                key={friend._id}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.95 },
+                  visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 120, damping: 14 } }
+                }}
+              >
+                <FriendCard friend={friend} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </section>
 
@@ -152,14 +174,14 @@ const HomePage = () => {
         </div>
 
         {/* Filter bar */}
-        <div className="rounded-2xl p-4 mb-6 bg-base-200/70 border border-base-300">
+        <div className="rounded-2xl p-4.5 mb-8 bg-gradient-to-b from-base-200/80 to-base-200/35 border border-primary/20 backdrop-blur-md shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
             {/* Search */}
-            <label className="input input-bordered flex items-center gap-2.5 lg:col-span-2 bg-base-100/50">
-              <SearchIcon className="size-4 text-base-content/30 shrink-0" />
+            <label className="input input-bordered flex items-center gap-2.5 lg:col-span-2 bg-base-100/40 border-primary/15 hover:border-primary/30 transition-all">
+              <SearchIcon className="size-4 text-base-content/40 shrink-0" />
               <input
                 type="text"
-                className="grow text-sm bg-transparent border-none outline-none text-base-content placeholder:text-base-content/25"
+                className="grow text-sm bg-transparent border-none outline-none text-base-content placeholder:text-base-content/30"
                 placeholder="Search by name…"
                 value={filters.q}
                 onChange={(e) => handleFilterChange("q", e.target.value)}
@@ -168,13 +190,13 @@ const HomePage = () => {
 
             {/* Native language */}
             <select
-              className="select select-bordered text-sm bg-base-100/50"
+              className="select select-bordered text-sm bg-base-100/40 border-primary/15 hover:border-primary/30 transition-all"
               value={filters.nativeLanguage}
               onChange={(e) => handleFilterChange("nativeLanguage", e.target.value)}
             >
-              <option value="">Native language</option>
+              <option value="" className="bg-black text-white">Native language</option>
               {LANGUAGES.map((lang) => (
-                <option key={`native-filter-${lang}`} value={lang.toLowerCase()}>
+                <option key={`native-filter-${lang}`} value={lang.toLowerCase()} className="bg-black text-white">
                   {lang}
                 </option>
               ))}
@@ -182,13 +204,13 @@ const HomePage = () => {
 
             {/* Learning language */}
             <select
-              className="select select-bordered text-sm bg-base-100/50"
+              className="select select-bordered text-sm bg-base-100/40 border-primary/15 hover:border-primary/30 transition-all"
               value={filters.learningLanguage}
               onChange={(e) => handleFilterChange("learningLanguage", e.target.value)}
             >
-              <option value="">Learning language</option>
+              <option value="" className="bg-black text-white">Learning language</option>
               {LANGUAGES.map((lang) => (
-                <option key={`learning-filter-${lang}`} value={lang.toLowerCase()}>
+                <option key={`learning-filter-${lang}`} value={lang.toLowerCase()} className="bg-black text-white">
                   {lang}
                 </option>
               ))}
@@ -196,13 +218,13 @@ const HomePage = () => {
 
             {/* Availability */}
             <select
-              className="select select-bordered text-sm bg-base-100/50"
+              className="select select-bordered text-sm bg-base-100/40 border-primary/15 hover:border-primary/30 transition-all"
               value={filters.availability}
               onChange={(e) => handleFilterChange("availability", e.target.value)}
             >
-              <option value="">Availability</option>
+              <option value="" className="bg-black text-white">Availability</option>
               {AVAILABILITY_OPTIONS.map((option) => (
-                <option key={option} value={option}>
+                <option key={option} value={option} className="bg-black text-white">
                   {option.charAt(0).toUpperCase() + option.slice(1)}
                 </option>
               ))}
@@ -216,7 +238,7 @@ const HomePage = () => {
             <span className="loading loading-spinner loading-lg text-primary" />
           </div>
         ) : allRecommendedUsers.length === 0 ? (
-          <div className="rounded-2xl p-10 text-center bg-base-200/60 border border-base-300">
+          <div className="rounded-2xl p-10 text-center bg-base-200/60 border border-primary/15">
             <div className="text-3xl mb-3">🌐</div>
             <h3 className="font-semibold text-base-content mb-1.5">No results found</h3>
             <p className="text-sm text-base-content/40">
@@ -225,13 +247,31 @@ const HomePage = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.08,
+                  },
+                },
+              }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            >
               {allRecommendedUsers.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
                 return (
-                  <div
+                  <motion.div
                     key={user._id}
-                    className="rounded-2xl p-5 glow-hover transition-all duration-200 bg-base-200/70 border border-base-300"
+                    variants={{
+                      hidden: { opacity: 0, y: 15 },
+                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } }
+                    }}
+                    whileHover={{ y: -6, scale: 1.015 }}
+                    className="rounded-2xl p-5 glow-hover transition-all duration-300 bg-base-200/70 border border-primary/20 shadow-sm hover:border-primary/45 hover:shadow-glow-sm cursor-default"
                   >
                     {/* User header */}
                     <div className="flex items-center gap-3.5 mb-4">
@@ -303,10 +343,10 @@ const HomePage = () => {
                         </>
                       )}
                     </button>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
 
             {/* Load more */}
             <div className="flex justify-center mt-8">

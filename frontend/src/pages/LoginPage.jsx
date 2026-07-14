@@ -4,6 +4,8 @@ import useLogin from "../hooks/useLogin";
 import BrandMark from "../components/BrandMark";
 import { useThemeStore } from "../store/useThemeStore";
 import { EyeIcon, EyeOffIcon, ZapIcon } from "lucide-react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -36,10 +38,15 @@ const LoginPage = () => {
 
       <div className="relative w-full max-w-4xl mx-auto">
         <div
-          className="flex flex-col lg:flex-row rounded-2xl overflow-hidden bg-base-200/85 border border-base-300 backdrop-blur-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.8),_inset_0_1px_0_rgba(255,255,255,0.05)]"
+          className="flex flex-col lg:flex-row rounded-2xl overflow-hidden bg-base-200/85 border border-primary/15 backdrop-blur-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.8),_inset_0_1px_0_rgba(255,255,255,0.05)]"
         >
           {/* FORM SIDE */}
-          <div className="w-full lg:w-1/2 p-8 sm:p-10 flex flex-col justify-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 80, damping: 15 }}
+            className="w-full lg:w-1/2 p-8 sm:p-10 flex flex-col justify-center"
+          >
             {/* Logo */}
             <div className="mb-8 flex items-center gap-3">
               <div className="relative">
@@ -135,16 +142,26 @@ const LoginPage = () => {
                 Sign up
               </Link>
             </p>
-          </div>
+          </motion.div>
 
           {/* HERO SIDE */}
           <div
-            className="hidden lg:flex w-full lg:w-1/2 flex-col items-center justify-center p-10 relative border-l border-base-300"
+            className="hidden lg:flex w-full lg:w-1/2 flex-col items-center justify-center p-10 relative border-l border-primary/15"
             style={{
               background: "linear-gradient(135deg, oklch(var(--p) / 0.12) 0%, oklch(var(--s) / 0.08) 100%)",
             }}
           >
-            <div className="relative w-full max-w-xs mx-auto">
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="relative w-full max-w-xs mx-auto"
+            >
               <img
                 src="/i.png"
                 alt="Language connection illustration"
@@ -154,7 +171,7 @@ const LoginPage = () => {
                 className="absolute inset-0 blur-2xl opacity-25 -z-0"
                 style={{ background: "linear-gradient(135deg, oklch(var(--p)), oklch(var(--s)))" }}
               />
-            </div>
+            </motion.div>
 
             <div className="text-center mt-8 space-y-2">
               <h2 className="text-xl font-bold text-base-content tracking-tight">
@@ -167,13 +184,16 @@ const LoginPage = () => {
 
             {/* Feature pills */}
             <div className="flex flex-wrap gap-2 justify-center mt-6">
-              {["🎙️ Voice Calls", "💬 Real-time Chat", "🤖 AI Tutor", "🌍 50+ Languages"].map((feat) => (
-                <span
+              {["🎙️ Voice Calls", "💬 Real-time Chat", "🤖 AI Tutor", "🌍 50+ Languages"].map((feat, index) => (
+                <motion.span
                   key={feat}
-                  className="px-3 py-1.5 rounded-full text-xs font-medium text-base-content/60 bg-base-100/50 border border-base-300"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.08 }}
+                  className="px-3 py-1.5 rounded-full text-xs font-medium text-base-content/60 bg-base-100/50 border border-primary/15"
                 >
                   {feat}
-                </span>
+                </motion.span>
               ))}
             </div>
           </div>

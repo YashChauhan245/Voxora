@@ -1,23 +1,8 @@
 export const THEMES = [
   {
-    name: "cosmic-abyss",
-    label: "Cosmic Abyss (Dark)",
-    colors: ["#0b0f19", "#8b5cf6", "#ec4899", "#f3f4f6"],
-  },
-  {
-    name: "cyber-neon",
-    label: "Cyber Neon (Dark)",
-    colors: ["#05070a", "#10b981", "#06b6d4", "#e2e8f0"],
-  },
-  {
-    name: "sunset-nebula",
-    label: "Sunset Nebula (Dark)",
-    colors: ["#150f1a", "#f97316", "#db2777", "#f3f4f6"],
-  },
-  {
-    name: "frost-aurora",
-    label: "Frost Aurora (Dark)",
-    colors: ["#0f172a", "#38bdf8", "#34d399", "#f1f5f9"],
+    name: "voxora-dark",
+    label: "Voxora Dark",
+    colors: ["#000000", "#8b5cf6", "#7c3aed", "#f3f4f6"],
   },
 ];
 

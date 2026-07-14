@@ -19,7 +19,7 @@ function CallButton({ handleVideoCall }) {
 
   return (
     <>
-      <div className="p-3 border-b flex items-center justify-end max-w-7xl mx-auto w-full absolute top-0">
+      <div className="p-3 border-b border-primary/15 flex items-center justify-end max-w-7xl mx-auto w-full absolute top-0">
         <button onClick={() => setShowModal(true)} className="btn btn-success btn-sm text-white">
           <VideoIcon className="size-6" />
         </button>
@@ -27,7 +27,7 @@ function CallButton({ handleVideoCall }) {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="card bg-base-100 text-base-content w-full max-w-md shadow-xl border border-base-300">
+          <div className="card bg-base-100 text-base-content w-full max-w-md shadow-xl border border-primary/20">
             <div className="card-body">
               <h3 className="text-lg font-semibold">Start Guided Practice Session</h3>
 

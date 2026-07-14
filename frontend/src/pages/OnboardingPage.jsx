@@ -91,7 +91,7 @@ const OnboardingPage = () => {
       <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 size-72 sm:size-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 size-72 sm:size-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none" />
 
-      <div className="card glass-card w-full max-w-3xl shadow-2xl relative z-10 border border-white/10 glow-border">
+      <div className="card glass-card w-full max-w-3xl shadow-2xl relative z-10 border border-primary/20 glow-border">
         <div className="card-body p-6 sm:p-10">
           <div className="flex flex-col items-center justify-center text-center mb-8">
             <span className="badge badge-primary gap-1.5 mb-3 px-3 py-2 bg-primary/10 border-primary/20 text-xs tracking-wider uppercase font-bold">
@@ -146,7 +146,7 @@ const OnboardingPage = () => {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="btn btn-outline btn-sm border-white/10 hover:border-primary/50 text-base-content/90 font-medium"
+                  className="btn btn-outline btn-sm border-primary/20 hover:border-primary/50 text-base-content/90 font-medium"
                 >
                   <UploadIcon className="size-4 mr-2 text-primary" />
                   Upload Photo
@@ -177,7 +177,7 @@ const OnboardingPage = () => {
                   name="fullName"
                   value={formState.fullName}
                   onChange={(e) => setFormState({ ...formState, fullName: e.target.value })}
-                  className="input input-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-primary/50 focus:bg-transparent"
+                  className="input input-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-primary/50 focus:bg-transparent"
                   placeholder="Your full name"
                   required
                 />
@@ -198,7 +198,7 @@ const OnboardingPage = () => {
                   name="bio"
                   value={formState.bio}
                   onChange={(e) => setFormState({ ...formState, bio: e.target.value })}
-                  className="textarea textarea-bordered w-full pl-11 pt-3 h-24 bg-white/5 border-white/10 focus:border-primary/50 focus:bg-transparent"
+                  className="textarea textarea-bordered w-full pl-11 pt-3 h-24 bg-white/5 border-primary/20 focus:border-primary/50 focus:bg-transparent"
                   placeholder="Tell others about yourself and your language learning goals"
                 />
               </div>
@@ -220,7 +220,7 @@ const OnboardingPage = () => {
                     name="nativeLanguage"
                     value={formState.nativeLanguage}
                     onChange={(e) => setFormState({ ...formState, nativeLanguage: e.target.value })}
-                    className="select select-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-secondary/50 focus:bg-transparent"
+                    className="select select-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-secondary/50 focus:bg-transparent"
                     required
                   >
                     <option value="" className="bg-black text-white">Select native language</option>
@@ -247,7 +247,7 @@ const OnboardingPage = () => {
                     name="learningLanguage"
                     value={formState.learningLanguage}
                     onChange={(e) => setFormState({ ...formState, learningLanguage: e.target.value })}
-                    className="select select-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-secondary/50 focus:bg-transparent"
+                    className="select select-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-secondary/50 focus:bg-transparent"
                     required
                   >
                     <option value="" className="bg-black text-white">Select language learning</option>
@@ -278,7 +278,7 @@ const OnboardingPage = () => {
                     name="location"
                     value={formState.location}
                     onChange={(e) => setFormState({ ...formState, location: e.target.value })}
-                    className="input input-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-accent/50 focus:bg-transparent"
+                    className="input input-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-accent/50 focus:bg-transparent"
                     placeholder="City, Country"
                   />
                 </div>
@@ -298,7 +298,7 @@ const OnboardingPage = () => {
                     name="availability"
                     value={formState.availability}
                     onChange={(e) => setFormState({ ...formState, availability: e.target.value })}
-                    className="select select-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-accent/50 focus:bg-transparent"
+                    className="select select-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-accent/50 focus:bg-transparent"
                   >
                     {AVAILABILITY_OPTIONS.map((option) => (
                       <option key={option} value={option} className="bg-black text-white">

@@ -37,7 +37,7 @@ const Navbar = () => {
   const { logoutMutation } = useLogout();
 
   return (
-    <nav className="sticky top-0 z-30 h-14 flex items-center border-b border-base-300 bg-base-200/85 backdrop-blur-xl">
+    <nav className="sticky top-0 z-30 h-14 flex items-center border-b border-primary/15 bg-base-200/85 backdrop-blur-xl">
       <div className="w-full px-4 sm:px-5">
         <div className="flex items-center justify-between w-full gap-3">
 
@@ -62,13 +62,13 @@ const Navbar = () => {
             </button>
             <ul
               tabIndex={0}
-              className="menu dropdown-content mt-2 z-[60] w-52 text-sm"
+              className="menu dropdown-content mt-2.5 p-1.5 shadow-2xl bg-base-200/95 backdrop-blur-xl rounded-2xl w-52 border border-primary/20 z-[60] text-sm gap-1"
             >
-              <li><Link to="/"><HomeIcon className="size-4" />Home</Link></li>
-              <li><Link to="/friends"><UsersIcon className="size-4" />Friends</Link></li>
-              <li><Link to="/dashboard"><BarChart3Icon className="size-4" />Progress</Link></li>
-              <li><Link to="/assistant"><SparklesIcon className="size-4" />AI Assistant</Link></li>
-              <li><Link to="/profile"><UserIcon className="size-4" />Profile</Link></li>
+              <li><Link to="/" className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/5 transition-all"><HomeIcon className="size-4 text-primary" />Home</Link></li>
+              <li><Link to="/friends" className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/5 transition-all"><UsersIcon className="size-4 text-primary" />Friends</Link></li>
+              <li><Link to="/dashboard" className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/5 transition-all"><BarChart3Icon className="size-4 text-primary" />Progress</Link></li>
+              <li><Link to="/assistant" className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/5 transition-all"><SparklesIcon className="size-4 text-primary" />AI Assistant</Link></li>
+              <li><Link to="/profile" className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl hover:bg-white/5 transition-all"><UserIcon className="size-4 text-primary" />Profile</Link></li>
             </ul>
           </div>
 

@@ -41,10 +41,10 @@ const Sidebar = () => {
   const unreadMessages = unreadData?.unreadCount || 0;
 
   return (
-    <aside className="w-64 hidden lg:flex flex-col h-screen sticky top-0 border-r border-base-300 bg-base-200/95 backdrop-blur-xl">
+    <aside className="w-64 hidden lg:flex flex-col h-screen sticky top-0 border-r border-primary/15 bg-base-200/95 backdrop-blur-xl">
 
       {/* LOGO */}
-      <div className="px-5 py-5 border-b border-base-300">
+      <div className="px-5 py-5 border-b border-primary/15">
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative">
             <BrandMark className="size-9 relative z-10" />
@@ -65,10 +65,10 @@ const Sidebar = () => {
             <Link
               key={to}
               to={to}
-              className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+              className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
                 isActive
-                  ? "bg-primary/15 text-primary border border-primary/20"
-                  : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
+                  ? "bg-gradient-to-r from-primary/15 to-primary/5 text-primary border border-primary/20 shadow-[0_0_12px_rgba(147,51,234,0.05)] translate-x-1"
+                  : "text-base-content/65 hover:text-base-content hover:bg-white/5 hover:translate-x-1"
               }`}
             >
               <Icon
@@ -87,10 +87,10 @@ const Sidebar = () => {
         {/* Messages link */}
         <Link
           to="/friends"
-          className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+          className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
             currentPath === "/chat" || currentPath.startsWith("/chat/")
-              ? "bg-primary/15 text-primary border border-primary/20"
-              : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
+              ? "bg-gradient-to-r from-primary/15 to-primary/5 text-primary border border-primary/20 shadow-[0_0_12px_rgba(147,51,234,0.05)] translate-x-1"
+              : "text-base-content/65 hover:text-base-content hover:bg-white/5 hover:translate-x-1"
           }`}
         >
           <MessageSquareIcon className={`size-[18px] flex-shrink-0 transition-colors ${
@@ -109,10 +109,10 @@ const Sidebar = () => {
         {/* Notifications link */}
         <Link
           to="/notifications"
-          className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
+          className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
             currentPath === "/notifications"
-              ? "bg-primary/15 text-primary border border-primary/20"
-              : "text-base-content/60 hover:text-base-content hover:bg-base-content/5"
+              ? "bg-gradient-to-r from-primary/15 to-primary/5 text-primary border border-primary/20 shadow-[0_0_12px_rgba(147,51,234,0.05)] translate-x-1"
+              : "text-base-content/65 hover:text-base-content hover:bg-white/5 hover:translate-x-1"
           }`}
         >
           <BellIcon className={`size-[18px] flex-shrink-0 transition-colors ${
@@ -130,7 +130,7 @@ const Sidebar = () => {
       </nav>
 
       {/* USER PROFILE */}
-      <div className="p-3 border-t border-base-300">
+      <div className="p-3 border-t border-primary/15">
         <Link
           to="/profile"
           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-base-content/5 transition-all duration-150 group"

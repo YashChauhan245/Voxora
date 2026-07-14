@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+import { Link, useParams } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken, logProgressEvent } from "../lib/api";
@@ -15,7 +17,7 @@ import {
 } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
 import toast from "react-hot-toast";
-import { MicIcon, MicOffIcon } from "lucide-react";
+import { ArrowLeftIcon, MicIcon, MicOffIcon, SquareIcon, Trash2Icon, Volume2Icon } from "lucide-react";
 
 import ChatLoader from "../components/ChatLoader";
 import CallButton from "../components/CallButton";
@@ -23,16 +25,36 @@ import ChatWorkspaceSidebar from "../components/ChatWorkspaceSidebar";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
+const LANGUAGE_LOCALE_MAP = {
+  english: "en-US",
+  spanish: "es-ES",
+  french: "fr-FR",
+  german: "de-DE",
+  mandarin: "zh-CN",
+  japanese: "ja-JP",
+  korean: "ko-KR",
+  hindi: "hi-IN",
+  russian: "ru-RU",
+  portuguese: "pt-BR",
+  arabic: "ar-SA",
+  italian: "it-IT",
+  turkish: "tr-TR",
+  dutch: "nl-NL",
+};
+
 const ChatPage = () => {
   const { id: targetUserId } = useParams();
 
   const [chatClient, setChatClient] = useState(null);
   const [channel, setChannel] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isListening, setIsListening] = useState(false);
+  const [isRecordingAudio, setIsRecordingAudio] = useState(false);
+  const [audioTimer, setAudioTimer] = useState(0);
 
-  const recognitionRef = useRef(null);
   const chatShellRef = useRef(null);
+  const audioRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const timerIntervalRef = useRef(null);
 
   const { authUser } = useAuthUser();
 
@@ -98,14 +120,11 @@ const ChatPage = () => {
 
   useEffect(() => {
     return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.onresult = null;
-        recognitionRef.current.onend = null;
-        recognitionRef.current.onerror = null;
-        recognitionRef.current.stop();
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
       }
     };
-  }, [recognitionRef]);
+  }, []);
 
   const focusChatInput = () => {
     const input = chatShellRef.current?.querySelector("textarea");
@@ -114,83 +133,100 @@ const ChatPage = () => {
     input.focus();
   };
 
-  const updateChatDraft = (incomingText, append = true) => {
-    const input = chatShellRef.current?.querySelector("textarea");
-    if (!input || !incomingText) return;
+  const startAudioRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioChunksRef.current = [];
+      const recorder = new MediaRecorder(stream);
 
-    const cleanText = incomingText.trim();
-    if (!cleanText) return;
-
-    const nextValue = append && input.value ? `${input.value} ${cleanText}` : cleanText;
-    const nativeSetter = Object.getOwnPropertyDescriptor(
-      window.HTMLTextAreaElement.prototype,
-      "value"
-    )?.set;
-
-    nativeSetter?.call(input, nextValue);
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.focus();
-  };
-
-  const speechSupported =
-    typeof window !== "undefined" &&
-    ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
-
-  const stopVoiceTyping = () => {
-    if (!recognitionRef.current) return;
-    recognitionRef.current.stop();
-    setIsListening(false);
-  };
-
-  const startVoiceTyping = () => {
-    if (!speechSupported) {
-      toast.error("Voice typing is not supported in this browser");
-      return;
-    }
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognitionRef.current = recognition;
-
-    recognition.lang = "en-US";
-    recognition.interimResults = true;
-    recognition.continuous = true;
-
-    recognition.onresult = (event) => {
-      let finalTranscript = "";
-
-      for (let i = event.resultIndex; i < event.results.length; i += 1) {
-        if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript;
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          audioChunksRef.current.push(e.data);
         }
-      }
+      };
 
-      if (finalTranscript.trim()) {
-        updateChatDraft(finalTranscript, true);
-      }
-    };
+      recorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        const audioFile = new File([audioBlob], `voice-note-${Date.now()}.webm`, { type: "audio/webm" });
 
-    recognition.onerror = () => {
-      setIsListening(false);
-      toast.error("Could not capture voice. Please try again.");
-    };
+        const uploadToast = toast.loading("Sending voice note...");
+        try {
+          // Upload audio file using Stream Chat client file uploader
+          const response = await channel.sendFile(audioFile);
+          
+          // Send message with the audio attachment
+          await channel.sendMessage({
+            text: "",
+            attachments: [
+              {
+                type: "audio",
+                file_size: audioFile.size,
+                mime_type: "audio/webm",
+                asset_url: response.file,
+                title: "Voice Note",
+              },
+            ],
+          });
+          toast.success("Voice note sent successfully", { id: uploadToast });
+        } catch (err) {
+          console.error("Error sending voice note:", err);
+          toast.error("Failed to send voice note", { id: uploadToast });
+        }
 
-    recognition.onend = () => {
-      setIsListening(false);
-    };
+        stream.getTracks().forEach((track) => track.stop());
+      };
 
-    recognition.start();
-    setIsListening(true);
-    toast.success("Voice typing started");
-  };
+      audioRecorderRef.current = recorder;
+      recorder.start();
+      setIsRecordingAudio(true);
+      setAudioTimer(0);
 
-  const toggleVoiceTyping = () => {
-    if (isListening) {
-      stopVoiceTyping();
-      return;
+      timerIntervalRef.current = setInterval(() => {
+        setAudioTimer((prev) => prev + 1);
+      }, 1000);
+
+      toast.success("Recording voice note...");
+    } catch (err) {
+      console.error("Error accessing mic:", err);
+      toast.error("Microphone access denied or unavailable");
     }
-    startVoiceTyping();
   };
+
+  const stopAudioRecording = () => {
+    if (audioRecorderRef.current && audioRecorderRef.current.state !== "inactive") {
+      audioRecorderRef.current.stop();
+    }
+    setIsRecordingAudio(false);
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+  };
+
+  const cancelAudioRecording = () => {
+    if (audioRecorderRef.current) {
+      audioRecorderRef.current.onstop = () => {
+        const stream = audioRecorderRef.current.stream;
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+        }
+      };
+      audioRecorderRef.current.stop();
+    }
+    setIsRecordingAudio(false);
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+    toast.success("Voice note discarded");
+  };
+
+  const formatTime = (seconds) => {
+    const safe = Math.max(seconds, 0);
+    const min = Math.floor(safe / 60);
+    const sec = safe % 60;
+    return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
+
+
 
   const handleVideoCall = (sessionConfig) => {
     if (channel) {
@@ -227,34 +263,24 @@ const ChatPage = () => {
         <ChatWorkspaceSidebar
           partner={partner}
           onFocusInput={focusChatInput}
-          onToggleVoice={toggleVoiceTyping}
-          isListening={isListening}
-          voiceSupported={speechSupported}
           onStartCall={() => handleVideoCall({ mode: "guided", difficulty: "beginner", duration: 15 })}
         />
 
         <section className="min-w-0 flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-base-300 bg-base-200/70 px-3 py-2">
-            <h2 className="font-semibold text-lg">Chat Workspace</h2>
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                className={`btn btn-sm btn-circle ${isListening ? "btn-error" : "btn-outline"}`}
-                onClick={toggleVoiceTyping}
-                disabled={!speechSupported}
-                title={
-                  !speechSupported
-                    ? "Speech recognition is not supported in this browser"
-                    : isListening
-                      ? "Stop voice typing"
-                      : "Start voice typing"
-                }
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-primary/15 bg-base-200/70 px-3 py-2">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/dashboard"
+                className="btn btn-xs sm:btn-sm btn-outline border-primary/25 bg-base-100/40 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-200 gap-1"
               >
-                {isListening ? <MicOffIcon className="size-[1.2rem]" /> : <MicIcon className="size-[1.2rem]" />}
-              </button>
+                <ArrowLeftIcon className="size-4" />
+                <span className="hidden sm:inline">Dashboard</span>
+              </Link>
+              <h2 className="font-semibold text-sm sm:text-base">Chat Workspace</h2>
             </div>
           </div>
 
-          <div className="chat-panel card border border-base-300 shadow-sm min-h-[62vh] flex-1" ref={chatShellRef}>
+          <div className="chat-panel card border border-primary/20 shadow-sm min-h-[62vh] flex-1" ref={chatShellRef}>
             <Chat client={chatClient}>
               <Channel channel={channel}>
                 <div className="w-full relative h-full">
@@ -263,15 +289,62 @@ const ChatPage = () => {
                     <ChannelHeader />
                     <MessageList />
                     <div className="chat-input-dock">
-                      <button
-                        className={`btn btn-sm btn-circle ${isListening ? "btn-error" : "btn-ghost"}`}
-                        onClick={toggleVoiceTyping}
-                        disabled={!speechSupported}
-                        title={isListening ? "Stop voice typing" : "Start voice typing"}
-                      >
-                        {isListening ? <MicOffIcon className="size-[1.2rem]" /> : <MicIcon className="size-[1.2rem]" />}
-                      </button>
-                      <MessageInput focus />
+                      {isRecordingAudio ? (
+                        <div className="flex items-center gap-3 bg-base-100/90 border border-primary/25 px-3 py-1.5 rounded-full w-full">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                            <span className="text-xs font-semibold tracking-wider font-mono">
+                              {formatTime(audioTimer)}
+                            </span>
+                          </div>
+                          
+                          <div className="flex items-center gap-1 flex-1 justify-center">
+                            {[...Array(6)].map((_, i) => (
+                              <motion.div
+                                key={i}
+                                animate={{
+                                  scaleY: [0.6, 2.4, 0.6],
+                                }}
+                                transition={{
+                                  duration: 0.65,
+                                  repeat: Infinity,
+                                  delay: i * 0.08,
+                                }}
+                                className="w-0.5 h-3.5 bg-primary/70 rounded-full origin-center"
+                              />
+                            ))}
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button
+                              className="btn btn-xs btn-ghost text-error hover:bg-error/10 hover:text-error rounded-full p-1"
+                              onClick={cancelAudioRecording}
+                              title="Discard voice note"
+                            >
+                              <Trash2Icon className="size-4.5" />
+                            </button>
+                            <button
+                              className="btn btn-xs btn-primary gap-1 px-2.5 rounded-full font-semibold"
+                              onClick={stopAudioRecording}
+                              title="Send voice note"
+                            >
+                              <SquareIcon className="size-3" />
+                              <span>Send</span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-sm btn-circle btn-outline border-primary/20 hover:border-primary text-primary hover:bg-primary/10"
+                            onClick={startAudioRecording}
+                            title="Record Voice Note"
+                          >
+                            <MicIcon className="size-[1.2rem] text-primary" />
+                          </button>
+                          <MessageInput focus />
+                        </>
+                      )}
                     </div>
                   </Window>
                 </div>

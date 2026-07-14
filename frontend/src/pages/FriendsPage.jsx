@@ -53,7 +53,7 @@ const FriendsPage = () => {
       <div className="container mx-auto space-y-6">
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Your Friends</h2>
 
-        <div className="card bg-base-200 border border-base-300">
+        <div className="card bg-base-200 border border-primary/20">
           <div className="card-body p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
             <label className="input input-bordered flex items-center gap-2 lg:col-span-2">
               <SearchIcon className="size-4 opacity-70" />

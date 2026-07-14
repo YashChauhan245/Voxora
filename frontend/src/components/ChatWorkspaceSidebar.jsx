@@ -1,5 +1,4 @@
 import {
-  AudioLinesIcon,
   LanguagesIcon,
   MessageCircleIcon,
   VideoIcon,
@@ -9,14 +8,11 @@ import { getAvatarFallback, getProfileImage } from "../lib/utils";
 const ChatWorkspaceSidebar = ({
   partner,
   onFocusInput,
-  onToggleVoice,
-  isListening,
-  voiceSupported,
   onStartCall,
 }) => {
   return (
-    <aside className="hidden xl:flex flex-col rounded-2xl border border-base-300 bg-base-100/80 backdrop-blur p-4 shadow-sm">
-      <div className="flex items-center gap-3 pb-4 border-b border-base-300">
+    <aside className="hidden xl:flex flex-col rounded-2xl border border-primary/15 bg-base-100/80 backdrop-blur p-4 shadow-sm">
+      <div className="flex items-center gap-3 pb-4 border-b border-primary/15">
         <div className="avatar">
           <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
             <img
@@ -41,23 +37,13 @@ const ChatWorkspaceSidebar = ({
           Jump to message input
         </button>
 
-        <button
-          className="btn btn-sm btn-outline w-full justify-start"
-          onClick={onToggleVoice}
-          disabled={!voiceSupported}
-          title={!voiceSupported ? "Speech recognition not supported in this browser" : ""}
-        >
-          <AudioLinesIcon className="size-4" />
-          {isListening ? "Stop voice typing" : "Start voice typing"}
-        </button>
-
         <button className="btn btn-sm btn-outline w-full justify-start" onClick={onStartCall}>
           <VideoIcon className="size-4" />
           Start guided call
         </button>
       </div>
 
-      <div className="mt-auto pt-4 border-t border-base-300 space-y-3 text-sm">
+      <div className="mt-auto pt-4 border-t border-primary/15 space-y-3 text-sm">
         <div className="flex items-center gap-2 opacity-80">
           <LanguagesIcon className="size-4" />
           <span>Tip: use short voice sentences for better results.</span>

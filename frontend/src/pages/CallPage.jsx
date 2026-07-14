@@ -169,7 +169,7 @@ const CallPage = () => {
   return (
     <div className="h-screen flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-6xl">
-        <div className="card bg-base-200 border border-base-300 mb-3">
+        <div className="card bg-base-200 border border-primary/20 mb-3">
           <div className="card-body p-3 sm:p-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex flex-wrap gap-2">

@@ -133,12 +133,12 @@ const ProfilePage = () => {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)]">
-          <form onSubmit={handleSubmit} className="card glass-card border border-white/10 shadow-2xl overflow-hidden glow-border">
+          <form onSubmit={handleSubmit} className="card glass-card border border-primary/20 shadow-2xl overflow-hidden glow-border">
             {/* Premium Social Media Banner Header */}
             <div className="h-32 sm:h-44 w-full bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/25 relative overflow-hidden">
               <div className="absolute inset-0 bg-mesh-dark opacity-60" />
               <div className="absolute bottom-3 right-4 flex items-center gap-2">
-                <span className="badge badge-outline border-white/20 text-white/80 text-[10px] tracking-wider uppercase font-bold bg-black/40 backdrop-blur-md">
+                <span className="badge badge-outline border-primary/30 text-white/80 text-[10px] tracking-wider uppercase font-bold bg-black/40 backdrop-blur-md">
                   Active Session
                 </span>
               </div>
@@ -193,7 +193,7 @@ const ProfilePage = () => {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="btn btn-outline btn-xs sm:btn-sm border-white/10 hover:border-primary/50 text-base-content/90 font-medium"
+                    className="btn btn-outline btn-xs sm:btn-sm border-primary/20 hover:border-primary/50 text-base-content/90 font-medium"
                   >
                     <UploadIcon className="size-3.5 mr-1.5 text-primary" />
                     Upload
@@ -241,7 +241,7 @@ const ProfilePage = () => {
                         type="text"
                         value={formState.fullName}
                         onChange={(event) => setFormState((current) => ({ ...current, fullName: event.target.value }))}
-                        className="input input-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-primary/50 focus:bg-transparent"
+                        className="input input-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-primary/50 focus:bg-transparent"
                         placeholder="Your full name"
                         required
                       />
@@ -262,7 +262,7 @@ const ProfilePage = () => {
                         type="url"
                         value={formState.profilePic}
                         onChange={(event) => setFormState((current) => ({ ...current, profilePic: event.target.value }))}
-                        className="input input-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-primary/50 focus:bg-transparent text-xs"
+                        className="input input-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-primary/50 focus:bg-transparent text-xs"
                         placeholder="Paste image URL or upload one"
                       />
                     </div>
@@ -282,7 +282,7 @@ const ProfilePage = () => {
                     <textarea
                       value={formState.bio}
                       onChange={(event) => setFormState((current) => ({ ...current, bio: event.target.value }))}
-                      className="textarea textarea-bordered w-full pl-11 pt-3 h-20 bg-white/5 border-white/10 focus:border-secondary/50 focus:bg-transparent text-sm"
+                      className="textarea textarea-bordered w-full pl-11 pt-3 h-20 bg-white/5 border-primary/20 focus:border-secondary/50 focus:bg-transparent text-sm"
                       placeholder="Tell us a little about yourself..."
                     />
                   </div>
@@ -303,7 +303,7 @@ const ProfilePage = () => {
                         type="text"
                         value={formState.location}
                         onChange={(event) => setFormState((current) => ({ ...current, location: event.target.value }))}
-                        className="input input-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-accent/50 focus:bg-transparent"
+                        className="input input-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-accent/50 focus:bg-transparent"
                         placeholder="e.g., Paris, France"
                       />
                     </div>
@@ -321,7 +321,7 @@ const ProfilePage = () => {
                       <select
                         value={formState.availability}
                         onChange={(event) => setFormState((current) => ({ ...current, availability: event.target.value }))}
-                        className="select select-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-accent/50 focus:bg-transparent"
+                        className="select select-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-accent/50 focus:bg-transparent"
                       >
                         {AVAILABILITY_OPTIONS.map((opt) => (
                           <option key={opt} value={opt} className="bg-black text-white">
@@ -347,7 +347,7 @@ const ProfilePage = () => {
                       <select
                         value={formState.nativeLanguage}
                         onChange={(event) => setFormState((current) => ({ ...current, nativeLanguage: event.target.value }))}
-                        className="select select-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-secondary/50 focus:bg-transparent"
+                        className="select select-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-secondary/50 focus:bg-transparent"
                       >
                         <option value="" className="bg-black text-white">Select language</option>
                         {LANGUAGES.map((lang) => (
@@ -371,7 +371,7 @@ const ProfilePage = () => {
                       <select
                         value={formState.learningLanguage}
                         onChange={(event) => setFormState((current) => ({ ...current, learningLanguage: event.target.value }))}
-                        className="select select-bordered w-full pl-11 bg-white/5 border-white/10 focus:border-secondary/50 focus:bg-transparent"
+                        className="select select-bordered w-full pl-11 bg-white/5 border-primary/20 focus:border-secondary/50 focus:bg-transparent"
                       >
                         <option value="" className="bg-black text-white">Select language</option>
                         {LANGUAGES.map((lang) => (
@@ -385,7 +385,7 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Live Preview card */}
-                <div className="rounded-2xl border border-white/5 bg-white/5 p-5 mt-2">
+                <div className="rounded-2xl border border-primary/15 bg-white/5 p-5 mt-2">
                   <div className="flex items-center gap-2 mb-3">
                     <SparklesIcon className="size-4 text-primary animate-pulse" />
                     <p className="font-semibold text-white text-sm">Live Preview Card</p>
@@ -436,7 +436,7 @@ const ProfilePage = () => {
           {/* Sidebar Panel */}
           <aside className="space-y-6">
             {/* Profile Snapshot Card */}
-            <div className="card glass-card border border-white/10 shadow-xl overflow-hidden glow-border">
+            <div className="card glass-card border border-primary/20 shadow-xl overflow-hidden glow-border">
               <div className="card-body p-6 space-y-5">
                 <div>
                   <h3 className="text-lg font-bold text-white">Profile Snapshot</h3>
@@ -444,21 +444,21 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="space-y-3.5">
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-white/5 px-4 py-3 hover:bg-white/10 transition-colors">
+                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
                     <span className="text-xs text-base-content/60 font-medium tracking-wide">NAME</span>
                     <span className="text-sm font-semibold text-white text-right">{authUser?.fullName || "Unset"}</span>
                   </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-white/5 px-4 py-3 hover:bg-white/10 transition-colors">
+                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
                     <span className="text-xs text-base-content/60 font-medium tracking-wide">EMAIL</span>
                     <span className="text-sm font-semibold text-white text-right break-all max-w-[180px]">{authUser?.email}</span>
                   </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-white/5 px-4 py-3 hover:bg-white/10 transition-colors">
+                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
                     <span className="text-xs text-base-content/60 font-medium tracking-wide">LANGUAGES</span>
                     <span className="text-sm font-semibold text-white text-right capitalize">
                       {authUser?.nativeLanguage || "None"} ➔ {authUser?.learningLanguage || "None"}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-white/5 px-4 py-3 hover:bg-white/10 transition-colors">
+                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
                     <span className="text-xs text-base-content/60 font-medium tracking-wide">LOCATION</span>
                     <span className="text-sm font-semibold text-white text-right">{authUser?.location || "Not set"}</span>
                   </div>
@@ -467,7 +467,7 @@ const ProfilePage = () => {
             </div>
 
             {/* Premium features info */}
-            <div className="card bg-gradient-to-br from-primary/10 via-base-200 to-secondary/10 border border-white/10 shadow-xl relative overflow-hidden">
+            <div className="card bg-gradient-to-br from-primary/10 via-base-200 to-secondary/10 border border-primary/20 shadow-xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary/20 blur-2xl rounded-full" />
               <div className="card-body p-6 space-y-3 relative z-10">
                 <h3 className="text-base font-bold text-white flex items-center gap-1.5">
