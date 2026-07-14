@@ -2,6 +2,8 @@
 
 Voxora is a real-time language exchange platform designed to bridge the gap between static vocabulary memorization and spoken fluency. The platform enables language learners to connect with global partners for real-time peer-to-peer text messaging and WebRTC video calls, assisted by an inline AI Language Tutor powered by Google Gemini.
 
+🔗 **Live Deployment**: [https://voxora-ulyj.onrender.com](https://voxora-ulyj.onrender.com)
+
 ---
 
 ## 📖 About the Project
