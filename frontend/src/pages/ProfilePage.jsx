@@ -132,7 +132,7 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)]">
+        <div className="grid gap-6 grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.85fr)]">
           <form onSubmit={handleSubmit} className="card glass-card border border-primary/20 shadow-2xl overflow-hidden glow-border">
             {/* Premium Social Media Banner Header */}
             <div className="h-32 sm:h-44 w-full bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/25 relative overflow-hidden">
@@ -444,23 +444,23 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="space-y-3.5">
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
-                    <span className="text-xs text-base-content/60 font-medium tracking-wide">NAME</span>
-                    <span className="text-sm font-semibold text-white text-right">{authUser?.fullName || "Unset"}</span>
+                  <div className="flex items-center justify-between gap-3 rounded-2xl bg-white/5 border border-primary/15 px-3 sm:px-4 py-3 hover:bg-white/10 transition-colors">
+                    <span className="text-xs text-base-content/60 font-medium tracking-wide flex-shrink-0">NAME</span>
+                    <span className="text-sm font-semibold text-white text-right truncate">{authUser?.fullName || "Unset"}</span>
                   </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
-                    <span className="text-xs text-base-content/60 font-medium tracking-wide">EMAIL</span>
-                    <span className="text-sm font-semibold text-white text-right break-all max-w-[180px]">{authUser?.email}</span>
+                  <div className="flex items-center justify-between gap-3 rounded-2xl bg-white/5 border border-primary/15 px-3 sm:px-4 py-3 hover:bg-white/10 transition-colors">
+                    <span className="text-xs text-base-content/60 font-medium tracking-wide flex-shrink-0">EMAIL</span>
+                    <span className="text-xs sm:text-sm font-semibold text-white text-right truncate max-w-[150px] sm:max-w-[200px]">{authUser?.email}</span>
                   </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
-                    <span className="text-xs text-base-content/60 font-medium tracking-wide">LANGUAGES</span>
-                    <span className="text-sm font-semibold text-white text-right capitalize">
+                  <div className="flex items-center justify-between gap-3 rounded-2xl bg-white/5 border border-primary/15 px-3 sm:px-4 py-3 hover:bg-white/10 transition-colors">
+                    <span className="text-xs text-base-content/60 font-medium tracking-wide flex-shrink-0">LANGUAGES</span>
+                    <span className="text-xs sm:text-sm font-semibold text-white text-right capitalize truncate">
                       {authUser?.nativeLanguage || "None"} ➔ {authUser?.learningLanguage || "None"}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-white/5 border border-primary/15 px-4 py-3 hover:bg-white/10 transition-colors">
-                    <span className="text-xs text-base-content/60 font-medium tracking-wide">LOCATION</span>
-                    <span className="text-sm font-semibold text-white text-right">{authUser?.location || "Not set"}</span>
+                  <div className="flex items-center justify-between gap-3 rounded-2xl bg-white/5 border border-primary/15 px-3 sm:px-4 py-3 hover:bg-white/10 transition-colors">
+                    <span className="text-xs text-base-content/60 font-medium tracking-wide flex-shrink-0">LOCATION</span>
+                    <span className="text-sm font-semibold text-white text-right truncate">{authUser?.location || "Not set"}</span>
                   </div>
                 </div>
               </div>

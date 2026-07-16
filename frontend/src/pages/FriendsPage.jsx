@@ -54,8 +54,8 @@ const FriendsPage = () => {
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Your Friends</h2>
 
         <div className="card bg-base-200 border border-primary/20">
-          <div className="card-body p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
-            <label className="input input-bordered flex items-center gap-2 lg:col-span-2">
+          <div className="card-body p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
+            <label className="input input-bordered flex items-center gap-2 sm:col-span-2 lg:col-span-2">
               <SearchIcon className="size-4 opacity-70" />
               <input
                 type="text"
@@ -106,14 +106,14 @@ const FriendsPage = () => {
             </select>
 
             <input
-              className="input input-bordered lg:col-span-2"
+              className="input input-bordered sm:col-span-2 lg:col-span-2"
               placeholder="Location"
               value={filters.location}
               onChange={(e) => handleFilterChange("location", e.target.value)}
             />
 
             <button
-              className="btn btn-ghost lg:col-span-1"
+              className="btn btn-ghost"
               onClick={() => {
                 setFilters(defaultFilters);
                 setPage(1);

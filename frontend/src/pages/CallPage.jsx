@@ -167,17 +167,17 @@ const CallPage = () => {
   if (isLoading || isConnecting) return <PageLoader />;
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center p-4">
+    <div className="h-screen flex flex-col items-center justify-center p-2 sm:p-4">
       <div className="w-full max-w-6xl">
-        <div className="card bg-base-200 border border-primary/20 mb-3">
-          <div className="card-body p-3 sm:p-4">
+        <div className="card bg-base-200 border border-primary/20 mb-2 sm:mb-3">
+          <div className="card-body p-2.5 sm:p-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex flex-wrap gap-2">
                 <span className="badge badge-primary">Mode: {mode}</span>
                 <span className="badge badge-secondary">Difficulty: {difficulty}</span>
                 <span className="badge badge-outline">Duration: {duration} min</span>
               </div>
-              <div className="text-lg font-semibold">Time Left: {formatTime(remainingSeconds)}</div>
+              <div className="text-base sm:text-lg font-semibold">Time Left: {formatTime(remainingSeconds)}</div>
             </div>
             <p className="mt-2 text-sm opacity-80">
               Practice Prompt: <span className="font-medium">{prompts[promptIndex]}</span>
@@ -200,7 +200,7 @@ const CallPage = () => {
               </StreamCall>
             </StreamVideo>
           ) : (
-            <div className="flex items-center justify-center h-full min-h-64">
+            <div className="flex items-center justify-center h-full min-h-48 sm:min-h-64">
               <p>Could not initialize call. Please refresh or try again later.</p>
             </div>
           )}

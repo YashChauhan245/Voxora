@@ -175,9 +175,9 @@ const HomePage = () => {
 
         {/* Filter bar */}
         <div className="rounded-2xl p-4.5 mb-8 bg-gradient-to-b from-base-200/80 to-base-200/35 border border-primary/20 backdrop-blur-md shadow-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
             {/* Search */}
-            <label className="input input-bordered flex items-center gap-2.5 lg:col-span-2 bg-base-100/40 border-primary/15 hover:border-primary/30 transition-all">
+            <label className="input input-bordered flex items-center gap-2.5 sm:col-span-2 lg:col-span-2 bg-base-100/40 border-primary/15 hover:border-primary/30 transition-all">
               <SearchIcon className="size-4 text-base-content/40 shrink-0" />
               <input
                 type="text"
@@ -259,7 +259,7 @@ const HomePage = () => {
                   },
                 },
               }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
             >
               {allRecommendedUsers.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);

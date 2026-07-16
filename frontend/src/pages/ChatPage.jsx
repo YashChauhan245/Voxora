@@ -258,7 +258,7 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="chat-workspace-page min-h-[calc(100vh-4rem)] overflow-y-auto p-2 sm:p-4">
+    <div className="chat-workspace-page min-h-[calc(100vh-4rem)] overflow-y-auto p-2 sm:p-3 lg:p-4">
       <div className="chat-workspace-grid h-full">
         <ChatWorkspaceSidebar
           partner={partner}
@@ -280,7 +280,7 @@ const ChatPage = () => {
             </div>
           </div>
 
-          <div className="chat-panel card border border-primary/20 shadow-sm min-h-[62vh] flex-1" ref={chatShellRef}>
+          <div className="chat-panel card border border-primary/20 shadow-sm min-h-[55vh] sm:min-h-[62vh] flex-1" ref={chatShellRef}>
             <Chat client={chatClient}>
               <Channel channel={channel}>
                 <div className="w-full relative h-full">

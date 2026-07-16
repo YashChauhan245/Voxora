@@ -229,7 +229,7 @@ const ChatAIAssistant = ({ authUser }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <section className="bg-base-100/70 border border-primary/20 rounded-2xl p-5 space-y-4 hover:border-primary/45 hover:bg-base-100/90 transition-all duration-300 shadow-sm hover:shadow-glow-sm hover:translate-y-[-1px]">
             <div className="flex items-center gap-2">
               <div className="p-1 rounded-md bg-secondary/15 text-secondary">
@@ -245,7 +245,7 @@ const ChatAIAssistant = ({ authUser }) => {
               onChange={(e) => setTranslateInput(e.target.value)}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <input
                 className="input input-bordered bg-base-200/50 border-primary/25 hover:border-primary/50 focus:border-primary focus:bg-base-200/80 transition-all text-sm"
                 placeholder="Target language"
@@ -345,7 +345,7 @@ const ChatAIAssistant = ({ authUser }) => {
           </section>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <section className="bg-base-100/70 border border-primary/20 rounded-2xl p-5 space-y-4 hover:border-primary/45 hover:bg-base-100/90 transition-all duration-300 shadow-sm hover:shadow-glow-sm hover:translate-y-[-1px]">
             <div className="flex items-center gap-2">
               <div className="p-1 rounded-md bg-primary/15 text-primary">
@@ -354,7 +354,7 @@ const ChatAIAssistant = ({ authUser }) => {
               <p className="font-semibold text-sm tracking-tight">AI Conversation Starters</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <input
                 className="input input-bordered bg-base-200/50 border-primary/25 hover:border-primary/50 focus:border-primary focus:bg-base-200/80 transition-all text-sm"
                 placeholder="Level (e.g. beginner, intermediate)"

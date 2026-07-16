@@ -75,10 +75,10 @@ const NotificationsPage = () => {
                       key={request._id}
                       className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
                     >
-                      <div className="card-body p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className="avatar w-14 h-14 rounded-full bg-base-300">
+                      <div className="card-body p-3 sm:p-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="avatar w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-base-300 flex-shrink-0">
                               <img
                                 src={getProfileImage(request.sender.profilePic, request.sender.fullName)}
                                 alt={request.sender.fullName}
@@ -88,13 +88,13 @@ const NotificationsPage = () => {
                                 }}
                               />
                             </div>
-                            <div>
-                              <h3 className="font-semibold">{request.sender.fullName}</h3>
-                              <div className="flex flex-wrap gap-1.5 mt-1">
-                                <span className="badge badge-secondary badge-sm">
+                            <div className="min-w-0">
+                              <h3 className="font-semibold text-sm sm:text-base truncate">{request.sender.fullName}</h3>
+                              <div className="flex flex-wrap gap-1 sm:gap-1.5 mt-1">
+                                <span className="badge badge-secondary badge-sm text-[10px] sm:text-xs">
                                   Native: {request.sender.nativeLanguage}
                                 </span>
-                                <span className="badge badge-outline badge-sm">
+                                <span className="badge badge-outline badge-sm text-[10px] sm:text-xs">
                                   Learning: {request.sender.learningLanguage}
                                 </span>
                               </div>
@@ -102,7 +102,7 @@ const NotificationsPage = () => {
                           </div>
 
                           <button
-                            className="btn btn-primary btn-sm"
+                            className="btn btn-primary btn-sm w-full sm:w-auto flex-shrink-0"
                             onClick={() => acceptRequestMutation(request._id)}
                             disabled={isPending}
                           >
@@ -126,34 +126,36 @@ const NotificationsPage = () => {
                 <div className="space-y-3">
                   {acceptedRequests.map((notification) => (
                     <div key={notification._id} className="card bg-base-200 shadow-sm">
-                      <div className="card-body p-4">
-                        <div className="flex items-start gap-3">
-                          <div className="avatar mt-1 size-10 rounded-full">
-                            <img
-                              src={getProfileImage(
-                                notification.recipient.profilePic,
-                                notification.recipient.fullName
-                              )}
-                              alt={notification.recipient.fullName}
-                              onError={(e) => {
-                                e.currentTarget.onerror = null;
-                                e.currentTarget.src = getAvatarFallback(
+                      <div className="card-body p-3 sm:p-4">
+                        <div className="flex flex-col sm:flex-row items-start gap-3">
+                          <div className="flex items-start gap-3 min-w-0 flex-1">
+                            <div className="avatar mt-1 size-9 sm:size-10 rounded-full flex-shrink-0">
+                              <img
+                                src={getProfileImage(
+                                  notification.recipient.profilePic,
                                   notification.recipient.fullName
-                                );
-                              }}
-                            />
+                                )}
+                                alt={notification.recipient.fullName}
+                                onError={(e) => {
+                                  e.currentTarget.onerror = null;
+                                  e.currentTarget.src = getAvatarFallback(
+                                    notification.recipient.fullName
+                                  );
+                                }}
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-sm sm:text-base truncate">{notification.recipient.fullName}</h3>
+                              <p className="text-xs sm:text-sm my-1 text-base-content/70">
+                                {notification.recipient.fullName} accepted your friend request
+                              </p>
+                              <p className="text-xs flex items-center opacity-70">
+                                <ClockIcon className="h-3 w-3 mr-1" />
+                                Recently
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex-1">
-                            <h3 className="font-semibold">{notification.recipient.fullName}</h3>
-                            <p className="text-sm my-1">
-                              {notification.recipient.fullName} accepted your friend request
-                            </p>
-                            <p className="text-xs flex items-center opacity-70">
-                              <ClockIcon className="h-3 w-3 mr-1" />
-                              Recently
-                            </p>
-                          </div>
-                          <div className="badge badge-success">
+                          <div className="badge badge-success flex-shrink-0 self-start text-xs">
                             <MessageSquareIcon className="h-3 w-3 mr-1" />
                             New Friend
                           </div>

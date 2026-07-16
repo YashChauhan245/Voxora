@@ -162,7 +162,7 @@ const DashboardPage = () => {
                   },
                 },
               }}
-              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
+              className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4"
             >
               <MetricCard
                 title="Minutes Spoken (7d)"
@@ -240,7 +240,7 @@ const DashboardPage = () => {
                                 <p className="font-semibold text-sm leading-none group-hover:text-primary transition-all duration-300">
                                   {chat.user.name || "Language Partner"}
                                 </p>
-                                <p className="text-xs opacity-60 truncate mt-1 max-w-[200px] sm:max-w-md">
+                                <p className="text-xs opacity-60 truncate mt-1 max-w-[140px] sm:max-w-[200px] md:max-w-md">
                                   {chat.lastMessage?.text || "Started a conversation"}
                                 </p>
                               </div>
