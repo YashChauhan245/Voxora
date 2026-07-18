@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getNotificationCounts, getUnreadMessagesCount } from "../lib/api";
 import BrandMark from "./BrandMark";
 import { getAvatarFallback, getProfileImage } from "../lib/utils";
+import { motion } from "framer-motion";
 
 const NAV_ITEMS = [
   { to: "/", icon: HomeIcon, label: "Home" },
@@ -65,68 +66,96 @@ const Sidebar = () => {
             <Link
               key={to}
               to={to}
-              className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
+              className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
                 isActive
-                  ? "bg-gradient-to-r from-primary/15 to-primary/5 text-primary border border-primary/20 shadow-[0_0_12px_rgba(147,51,234,0.05)] translate-x-1"
-                  : "text-base-content/65 hover:text-base-content hover:bg-white/5 hover:translate-x-1"
+                  ? "bg-primary/[0.08] text-primary border border-primary/15 shadow-[inset_0_1px_0_oklch(var(--p)/0.12)] translate-x-1"
+                  : "text-base-content/65 hover:text-base-content hover:bg-white/[0.03] hover:translate-x-1"
               }`}
             >
+              {isActive && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-primary"
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                />
+              )}
               <Icon
                 className={`size-[18px] flex-shrink-0 transition-colors ${
                   isActive ? "text-primary" : "text-base-content/40 group-hover:text-base-content/75"
                 }`}
               />
               <span className="truncate">{label}</span>
-              {isActive && (
-                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
-              )}
             </Link>
           );
         })}
 
         {/* Messages link */}
-        <Link
-          to="/friends"
-          className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
-            currentPath === "/chat" || currentPath.startsWith("/chat/")
-              ? "bg-gradient-to-r from-primary/15 to-primary/5 text-primary border border-primary/20 shadow-[0_0_12px_rgba(147,51,234,0.05)] translate-x-1"
-              : "text-base-content/65 hover:text-base-content hover:bg-white/5 hover:translate-x-1"
-          }`}
-        >
-          <MessageSquareIcon className={`size-[18px] flex-shrink-0 transition-colors ${
-            currentPath === "/chat" || currentPath.startsWith("/chat/")
-              ? "text-primary"
-              : "text-base-content/40 group-hover:text-base-content/75"
-          }`} />
-          <span className="truncate">Messages</span>
-          {unreadMessages > 0 && (
-            <span className="ml-auto badge badge-primary badge-sm px-1.5 py-0.5 text-[10px] font-bold min-w-[20px] text-center">
-              {unreadMessages > 99 ? "99+" : unreadMessages}
-            </span>
-          )}
-        </Link>
+        {(() => {
+          const isMessagesActive = currentPath === "/chat" || currentPath.startsWith("/chat/");
+          return (
+            <Link
+              to="/friends"
+              className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
+                isMessagesActive
+                  ? "bg-primary/[0.08] text-primary border border-primary/15 shadow-[inset_0_1px_0_oklch(var(--p)/0.12)] translate-x-1"
+                  : "text-base-content/65 hover:text-base-content hover:bg-white/[0.03] hover:translate-x-1"
+              }`}
+            >
+              {isMessagesActive && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-primary"
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                />
+              )}
+              <MessageSquareIcon className={`size-[18px] flex-shrink-0 transition-colors ${
+                isMessagesActive
+                  ? "text-primary"
+                  : "text-base-content/40 group-hover:text-base-content/75"
+              }`} />
+              <span className="truncate">Messages</span>
+              {unreadMessages > 0 && (
+                <span className="ml-auto badge badge-primary badge-sm px-1.5 py-0.5 text-[10px] font-bold min-w-[20px] text-center shadow-[0_0_8px_oklch(var(--p)/0.4)] animate-pulse">
+                  {unreadMessages > 99 ? "99+" : unreadMessages}
+                </span>
+              )}
+            </Link>
+          );
+        })()}
 
         {/* Notifications link */}
-        <Link
-          to="/notifications"
-          className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
-            currentPath === "/notifications"
-              ? "bg-gradient-to-r from-primary/15 to-primary/5 text-primary border border-primary/20 shadow-[0_0_12px_rgba(147,51,234,0.05)] translate-x-1"
-              : "text-base-content/65 hover:text-base-content hover:bg-white/5 hover:translate-x-1"
-          }`}
-        >
-          <BellIcon className={`size-[18px] flex-shrink-0 transition-colors ${
-            currentPath === "/notifications"
-              ? "text-primary"
-              : "text-base-content/40 group-hover:text-base-content/75"
-          }`} />
-          <span className="truncate">Notifications</span>
-          {pendingRequests > 0 && (
-            <span className="ml-auto badge badge-primary badge-sm px-1.5 py-0.5 text-[10px] font-bold min-w-[20px] text-center">
-              {pendingRequests > 99 ? "99+" : pendingRequests}
-            </span>
-          )}
-        </Link>
+        {(() => {
+          const isNotificationsActive = currentPath === "/notifications";
+          return (
+            <Link
+              to="/notifications"
+              className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-out ${
+                isNotificationsActive
+                  ? "bg-primary/[0.08] text-primary border border-primary/15 shadow-[inset_0_1px_0_oklch(var(--p)/0.12)] translate-x-1"
+                  : "text-base-content/65 hover:text-base-content hover:bg-white/[0.03] hover:translate-x-1"
+              }`}
+            >
+              {isNotificationsActive && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-primary"
+                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                />
+              )}
+              <BellIcon className={`size-[18px] flex-shrink-0 transition-colors ${
+                isNotificationsActive
+                  ? "text-primary"
+                  : "text-base-content/40 group-hover:text-base-content/75"
+              }`} />
+              <span className="truncate">Notifications</span>
+              {pendingRequests > 0 && (
+                <span className="ml-auto badge badge-primary badge-sm px-1.5 py-0.5 text-[10px] font-bold min-w-[20px] text-center shadow-[0_0_8px_oklch(var(--p)/0.4)] animate-pulse">
+                  {pendingRequests > 99 ? "99+" : pendingRequests}
+                </span>
+              )}
+            </Link>
+          );
+        })()}
       </nav>
 
       {/* USER PROFILE */}

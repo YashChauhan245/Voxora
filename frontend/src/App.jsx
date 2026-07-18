@@ -1,4 +1,5 @@
 import HomePage from './pages/HomePage'
+import LandingPage from './pages/LandingPage'
 import { Routes, Route ,Navigate } from "react-router";
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
@@ -34,9 +35,10 @@ const App = () => {
               <Layout showSidebar={true}>
                 <HomePage />
               </Layout>
-      
+            ) : isAuthenticated && !isOnboarded ? (
+              <Navigate to="/onboarding" />
             ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+              <LandingPage />
             )
           }
         />
